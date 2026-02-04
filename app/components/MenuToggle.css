@@ -1,0 +1,100 @@
+.menu-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-path {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circle-stroke {
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-dasharray: 113.1; /* 2 * PI * r = 2 * 3.14159 * 18 */
+  stroke-dashoffset: 113.1;
+  transition: stroke-dashoffset 1s cubic-bezier(0.25, 0.1, 0.25, 1),
+    stroke 0.3s ease;
+}
+
+.menu-toggle:hover .circle-stroke,
+.menu-toggle.active .circle-stroke {
+  stroke-dashoffset: 0;
+  stroke: rgba(255, 255, 255, 0.9);
+}
+
+.menu-icon {
+  position: relative;
+  width: 18px;
+  height: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.line {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 0.3s ease, width 0.3s ease;
+  transform-origin: center;
+}
+
+.line-1 {
+  width: 100%;
+}
+
+.line-2 {
+  width: 70%;
+}
+
+.line-3 {
+  width: 100%;
+}
+
+/* Hover state */
+.menu-toggle:hover .line-2 {
+  width: 100%;
+}
+
+/* Active/Open state - Transform to X */
+.menu-toggle.active .line-1 {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.menu-toggle.active .line-2 {
+  opacity: 0;
+  width: 0;
+}
+
+.menu-toggle.active .line-3 {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+/* Dark background variant */
+.menu-toggle.dark .circle-stroke {
+  stroke: rgba(139, 115, 85, 0.6);
+}
+
+.menu-toggle.dark:hover .circle-stroke,
+.menu-toggle.dark.active .circle-stroke {
+  stroke: rgba(139, 115, 85, 0.9);
+}
+
+.menu-toggle.dark .line {
+  background: rgba(139, 115, 85, 0.9);
+}

@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
+import MenuToggle from "./components/MenuToggle";
+import Nav from "./components/Nav";
 
 export default function CinematicHero() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -15,6 +18,31 @@ export default function CinematicHero() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [showLook, setShowLook] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(true);
+  const targetPos = useRef({ x: 0, y: 0 });
+
+  // Smooth cursor lerp animation
+  useEffect(() => {
+    let animationId: number;
+    const lerp = (start: number, end: number, factor: number) =>
+      start + (end - start) * factor;
+
+    const animate = () => {
+      setCursorPos((prev) => ({
+        x: lerp(prev.x, targetPos.current.x, 0.5),
+        y: lerp(prev.y, targetPos.current.y, 0.5),
+      }));
+      animationId = requestAnimationFrame(animate);
+    };
+
+    if (isHovering) {
+      animationId = requestAnimationFrame(animate);
+    }
+
+    return () => cancelAnimationFrame(animationId);
+  }, [isHovering]);
   const contentOpacity = Math.min(1, Math.max(0, (scrollProgress - 0.3) * 2));
 
   useEffect(() => {
@@ -105,7 +133,7 @@ export default function CinematicHero() {
       isSnapping = true;
 
       lenis.scrollTo(sections[nextIndex], {
-        duration: 2.2,
+        duration: 1.5,
         easing: (t) => 1 - Math.pow(1 - t, 4), // easeOutQuart
         onComplete: () => {
           setTimeout(() => {
@@ -143,6 +171,15 @@ export default function CinematicHero() {
 
   return (
     <div ref={containerRef} className="relative bg-white">
+      {/* ========== MENU TOGGLE BUTTON ========== */}
+      <MenuToggle
+        isOpen={isMenuOpen}
+        onToggle={() => setIsMenuOpen(!isMenuOpen)}
+        className={scrollProgress > 0.5 ? "dark" : ""}
+      />
+
+      {/* ========== NAVIGATION OVERLAY ========== */}
+      <Nav isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       {/* ========== FIXED VIDEO LAYER (ONLY PART CHANGED) ========== */}
       <div className="fixed inset-0 z-10 pointer-events-none">
         <div
@@ -182,7 +219,20 @@ export default function CinematicHero() {
       {/* ========== HERO SECTION (unchanged) ========== */}
       <section
         ref={heroRef}
-        className="relative h-screen w-full overflow-hidden z-20"
+        className={`relative h-screen w-full overflow-hidden z-20 ${isHovering && heroOpacity > 0.3 ? "cursor-none" : ""}`}
+        onMouseMove={(e) => { targetPos.current = { x: e.clientX, y: e.clientY }; }}
+        onMouseEnter={(e) => {
+          targetPos.current = { x: e.clientX, y: e.clientY };
+          setCursorPos({ x: e.clientX, y: e.clientY });
+          setIsHovering(true);
+        }}
+        onMouseLeave={() => setIsHovering(false)}
+        onClick={() => {
+          setIsMuted(!isMuted);
+          if (videoRef.current) {
+            videoRef.current.muted = !isMuted;
+          }
+        }}
       >
         <div
           className="absolute inset-0 flex flex-col items-center justify-center px-6 z-30"
@@ -222,6 +272,57 @@ export default function CinematicHero() {
             <path d="M7.99,39.42c0.24,0.1,0.52,0.1,0.77,0c0.12-0.05,0.23-0.12,0.32-0.22l7.37-7.37c0.39-0.39,0.39-1.02,0-1.41 s-1.02-0.39-1.41,0l-5.66,5.66L9.37,1c0-0.55-0.45-1-1-1C8.09,0,7.84,0.11,7.66,0.29C7.48,0.47,7.37,0.72,7.37,1l0,35.08l-5.66-5.66 c-0.39-0.39-1.02-0.39-1.41,0s-0.39,1.02,0,1.41l7.37,7.37C7.75,39.29,7.87,39.37,7.99,39.42z" />
           </svg>
         </div>
+
+        {/* Custom Speaker Cursor */}
+        {isHovering && heroOpacity > 0.3 && (
+          <div
+            className="fixed z-50"
+            style={{
+              left: cursorPos.x,
+              top: cursorPos.y,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <div className="w-12 h-12 rounded-full border border-white/60 bg-black/20 backdrop-blur-sm flex items-center cursor-pointer justify-center">
+              {isMuted ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                  />
+                </svg>
+              )}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ========== CONTENT SECTION ========== */}
@@ -351,7 +452,7 @@ export default function CinematicHero() {
               }}
             >
               <span className="inline-block">TRUE</span>
-              <span className="inline-block">PERFECTION.</span>
+              <span className="inline-block pl-20">PERFECTION.</span>
             </h2>
           </div>
 
