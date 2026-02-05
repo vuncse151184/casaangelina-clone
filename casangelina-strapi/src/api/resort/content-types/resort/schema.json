@@ -1,0 +1,36 @@
+{
+    "kind": "collectionType",
+    "collectionName": "strapi_resorts",
+    "info": {
+        "singularName": "resort",
+        "pluralName": "resorts",
+        "displayName": "Resort"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "name"
+        },
+        "description": {
+            "type": "richtext"
+        },
+        "location": {
+            "type": "string"
+        },
+        "gallery": {
+            "type": "media",
+            "multiple": true,
+            "allowedTypes": [
+                "images",
+                "videos"
+            ]
+        }
+    }
+}

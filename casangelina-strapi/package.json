@@ -1,0 +1,37 @@
+{
+  "name": "casangelina-strapi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Strapi application",
+  "scripts": {
+    "build": "strapi build",
+    "console": "strapi console",
+    "deploy": "strapi deploy",
+    "dev": "strapi develop",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "strapi": "strapi",
+    "upgrade": "npx @strapi/upgrade latest",
+    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+  },
+  "dependencies": {
+    "@strapi/plugin-cloud": "5.35.0",
+    "@strapi/plugin-users-permissions": "5.35.0",
+    "@strapi/provider-upload-cloudinary": "^5.35.0",
+    "@strapi/strapi": "5.35.0",
+    "@supabase/supabase-js": "^2.94.1",
+    "pg": "8.8.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "styled-components": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0 <=24.x.x",
+    "npm": ">=6.0.0"
+  },
+  "strapi": {
+    "uuid": "03da4ac2-a20c-424e-b1f8-a806be36866b",
+    "installId": "3b42f20d509d75d753c84a2b71698ed34bd99d076beeaebd93e4a6c9e73228f4"
+  }
+}
