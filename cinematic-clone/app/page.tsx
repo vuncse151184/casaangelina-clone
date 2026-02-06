@@ -4,6 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import Lenis from "lenis";
 import MenuToggle from "./components/MenuToggle";
 import Nav from "./components/Nav";
+import EthosSection from "./components/EthosSection";
+import DiningSection from "./components/DiningSection";
+import ExperiencesSection from "./components/ExperiencesSection";
+import InstagramSection from "./components/InstagramSection";
 
 export default function CinematicHero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -181,7 +185,14 @@ export default function CinematicHero() {
       {/* ========== NAVIGATION OVERLAY ========== */}
       <Nav isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       {/* ========== FIXED VIDEO LAYER (ONLY PART CHANGED) ========== */}
-      <div className="fixed inset-0 z-10 pointer-events-none">
+      <div
+        className="fixed inset-0 z-10 pointer-events-none"
+        style={{
+          opacity: scrollProgress >= 1 ? 0 : 1,
+          visibility: scrollProgress >= 1 ? "hidden" : "visible",
+          transition: "opacity 0.5s ease, visibility 0.5s ease",
+        }}
+      >
         <div
           className="absolute inset-0 will-change-[clip-path,transform]"
           style={{
@@ -503,6 +514,18 @@ export default function CinematicHero() {
           </div>
         </div>
       </section>
+
+      {/* ========== ETHOS SECTION ========== */}
+      <EthosSection />
+
+      {/* ========== DINING SECTION ========== */}
+      <DiningSection />
+
+      {/* ========== EXPERIENCES SECTION ========== */}
+      <ExperiencesSection />
+
+      {/* ========== INSTAGRAM SECTION ========== */}
+      <InstagramSection />
     </div>
   );
 }
