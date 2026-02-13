@@ -1,0 +1,174 @@
+{
+    "hero": {
+        "title": "Serenity Resort",
+        "subtitle": "Thánh Địa Địa Trung Hải",
+        "scrollDown": "Cuộn xuống",
+        "scrollHint": "để bắt đầu trải nghiệm"
+    },
+    "content": {
+        "look": "KHÁM",
+        "beyondLimits": "PHÁ    GIỚI    HẠN.",
+        "find": "TÌM KIẾM",
+        "truePerfection": "SỰ HOÀN HẢO."
+    },
+    "ethos": {
+        "heading": "t i n h  t h ầ n",
+        "desc1": "Sự thanh lịch tinh tế là triết lý thiết kế của chúng tôi và những chi tiết tinh tế là lẽ sống của chúng tôi. Chúng tôi đảm bảo mọi thứ trong kỳ nghỉ của bạn đều hoàn hảo, từ những tấm ga trải giường cotton trắng mềm mại đến những lá thảo mộc trang trí được hái từ vườn.",
+        "desc2": "Những đường nét thanh thoát và sắc trắng tinh khôi tôn lên những gam màu đậm đà của thiên nhiên. Nơi trú ẩn thoáng đãng, khách sạn boutique của chúng tôi là nơi du khách có thể tái khám phá nhịp sống chậm rãi của những ngày dài thư thái.",
+        "services": {
+            "wellbeing": "Sức Khỏe",
+            "pool": "Hồ Bơi",
+            "beach": "Bãi Biển",
+            "theGrounds": "Khuôn Viên",
+            "ourBoats": "Du Thuyền",
+            "concierge": "Lễ Tân"
+        }
+    },
+    "dining": {
+        "heading": "ẩ m  t h ự c",
+        "description": "Ẩm thực cao cấp phong cách Amalfi. Tại Casa Angelina, hương vị phong phú và nguyên liệu xứ Campania truyền cảm hứng cho từng món ăn.",
+        "venues": {
+            "unPiano": {
+                "name": "Un Piano Nel Cielo",
+                "tagline": "Ẩm thực Campania với tầm nhìn biển ngoạn mục"
+            },
+            "seascape": {
+                "name": "Nhà Hàng Seascape",
+                "tagline": "Thưởng thức trọn ngày thư thái"
+            },
+            "cocktailBar": {
+                "name": "Quầy Cocktail",
+                "tagline": "Cocktail tuyệt hảo & tầm nhìn tuyệt đẹp"
+            },
+            "wineCellar": {
+                "name": "Hầm Rượu",
+                "tagline": "Bộ sưu tập rượu vang đạt giải thưởng"
+            },
+            "breakfast": {
+                "name": "Bữa Sáng",
+                "tagline": "Buổi sáng Địa Trung Hải với bữa ăn thịnh soạn"
+            },
+            "rooftop": {
+                "name": "Sân Thượng",
+                "tagline": "Bữa tối riêng tư & tiệc thân mật"
+            }
+        }
+    },
+    "experiences": {
+        "heading": "t r ả i  n g h i ệ m",
+        "moreDetails": "Chi Tiết",
+        "items": {
+            "chefOnBoard": {
+                "title": "Đầu Bếp Trên Thuyền",
+                "subtitle": "Hương Vị Amalfi, Giữa Biển Khơi",
+                "description": "Trải nghiệm thú vị và ngon miệng, đầy hương vị và phiêu lưu. Cách thưởng thức ẩm thực Napoli đích thực độc đáo."
+            },
+            "fineDriving": {
+                "title": "Tham Quan Cổ Điển",
+                "subtitle": "Chút Ma Thuật Hoài Cổ",
+                "description": "Ít nơi nào ở Ý thể hiện cuộc sống ngọt ngào như bờ biển Amalfi. Trải nghiệm theo phong cách vintage."
+            },
+            "romanceRetreat": {
+                "title": "Kỳ Nghỉ Lãng Mạn",
+                "subtitle": "Cuối Tuần Đầy Mộng Mơ",
+                "description": "Với khung cảnh vách đá thơ mộng và phong cách tinh tế, Casa Angelina là điểm đến lãng mạn tuyệt vời nhất."
+            },
+            "bodySoul": {
+                "title": "Thư giãn tâm hồn",
+                "subtitle": "Tìm Lại Bản Thể Tốt Nhất",
+                "description": "Thư giãn với gói chăm sóc sức khỏe ba đêm, giúp bạn cảm thấy khỏe mạnh và không còn căng thẳng."
+            }
+        }
+    },
+    "instagram": {
+        "label": "I N S T A G R A M",
+        "tagline": "Đơn giản nhưng hiệu quả..."
+    },
+    "nav": {
+        "sections": {
+            "hotelAtAGlance": "Tổng Quan Khách Sạn",
+            "suites": "Căn Hộ Cao Cấp",
+            "rooms": "Phòng",
+            "dining": "Ẩm Thực"
+        },
+        "items": {
+            "concept": {
+                "title": "Ý Tưởng",
+                "subtitle": "chủ nghĩa tối giản hiện đại"
+            },
+            "location": {
+                "title": "Vị Trí",
+                "subtitle": "ốc đảo yên bình và tĩnh lặng"
+            },
+            "explorePraiano": {
+                "title": "Khám Phá Praiano",
+                "subtitle": "bí mật được giữ kín nhất của Amalfi"
+            },
+            "sustainability": {
+                "title": "Hành Trình Bền Vững"
+            },
+            "shopCA": {
+                "title": "Mua Sắm CA",
+                "subtitle": "mang về thế giới phong cách"
+            },
+            "angelinaSuite": {
+                "title": "Suite Angelina",
+                "subtitle": "tinh thần của casa angelina"
+            },
+            "azureSuite": {
+                "title": "Suite Azure",
+                "subtitle": "ra mắt tháng 4/2023"
+            },
+            "vermarine": {
+                "title": "Suite Vermarine",
+                "subtitle": "mới ra mắt tháng 4/2024"
+            },
+            "grandDeLuxe": {
+                "title": "Grand De Luxe",
+                "subtitle": "tuyên ngôn phong cách"
+            },
+            "deluxeCorner": {
+                "title": "Deluxe Corner Hướng Biển",
+                "subtitle": "nơi phong cách và không gian hội tụ"
+            },
+            "terrace": {
+                "title": "Terrace",
+                "subtitle": "sống chậm"
+            },
+            "relaxing": {
+                "title": "Relaxing",
+                "subtitle": "vẻ đẹp thanh bình"
+            },
+            "taste": {
+                "title": "Ẩm Thực",
+                "subtitle": "bữa tiệc địa trung hải"
+            },
+            "breakfast": {
+                "title": "Bữa Sáng",
+                "subtitle": "buổi sáng địa trung hải"
+            },
+            "piano": {
+                "title": "Un Piano Nel Cielo",
+                "subtitle": "ẩm thực ý cao cấp"
+            },
+            "cocktail": {
+                "title": "Seascape Cocktail Bar",
+                "subtitle": "cocktail tuyệt hảo & tầm nhìn đẹp"
+            }
+        }
+    },
+    "rooms": {
+        "pageTitle": "Phòng & Căn Hộ",
+        "viewDetails": "Xem Chi Tiết",
+        "noImage": "Không có ảnh",
+        "noRooms": "Hiện không có phòng nào.",
+        "errorHint": "Vui lòng đảm bảo Strapi đang chạy và quyền truy cập công khai được bật."
+    },
+    "footer": {
+        "address": "Via Capriglione, 147",
+        "city": "84010 Praiano",
+        "region": "Bờ Biển Amalfi, SA",
+        "country": "Ý",
+        "copyright": "© Casa Angelina 2026 | bảo lưu mọi quyền"
+    }
+}

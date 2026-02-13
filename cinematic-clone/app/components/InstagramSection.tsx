@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import useScrollFadeIn from "../hooks/useScrollFadeIn";
+import { useTranslation } from "../i18n/I18nContext";
 
 export default function InstagramSection() {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const stickyRef = useRef<HTMLElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollX, setScrollX] = useState(0);
+    const { t } = useTranslation();
+
+    const labelFade = useScrollFadeIn({ delay: 0, translateY: 40 });
+    const linkFade = useScrollFadeIn<HTMLAnchorElement>({ delay: 100, translateY: 40 });
+    const taglineFade = useScrollFadeIn({ delay: 200, translateY: 40 });
 
     // Placeholder images - would be replaced with actual Instagram feed
     const images = [
@@ -16,15 +23,7 @@ export default function InstagramSection() {
         "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
         "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
         "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
+
     ];
 
     useEffect(() => {
@@ -83,18 +82,21 @@ export default function InstagramSection() {
             >
                 {/* Header */}
                 <div className="text-center mb-8 mt-10 px-6">
-                    <p className="text-[#d4c4b0] uppercase tracking-[0.5em] text-sm mb-2">
-                        I N S T A G R A M
+                    <p ref={labelFade.ref} style={labelFade.style} className="text-[#d4c4b0] uppercase tracking-[0.5em] text-sm mb-2">
+                        {t("instagram.label")}
+
                     </p>
                     <a
-                        href="https://instagram.com/casangelina"
+                        ref={linkFade.ref}
+                        style={linkFade.style}
+                        href="https://instagram.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#8b7355] uppercase tracking-[0.2em] text-xl hover:text-[#6b5340] transition-colors"
+                        className="block text-[#8b7355] uppercase tracking-[0.2em] text-xl hover:text-[#6b5340] transition-colors"
                     >
                         @CASANGELINA
                     </a>
-                    <p className="text-[#a89680] mt-3 italic text-lg">Less is more...</p>
+                    <p ref={taglineFade.ref} style={taglineFade.style} className="text-[#a89680] mt-3 italic text-lg">{t("instagram.tagline")}</p>
                 </div>
 
                 {/* Instagram Horizontal Scroll */}
@@ -109,7 +111,7 @@ export default function InstagramSection() {
                         {images.map((src, index) => (
                             <a
                                 key={index}
-                                href="https://instagram.com/casangelina"
+                                href="https://instagram.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="relative flex-shrink-0 overflow-hidden group"
@@ -137,8 +139,7 @@ export default function InstagramSection() {
                         ))}
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 }
-

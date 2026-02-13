@@ -2,14 +2,15 @@
 
 import "./Nav.css";
 
+import { useTranslation, Locale } from "../i18n/I18nContext";
+
 interface NavItem {
-    title: string;
+    key: string;
     href: string;
-    subtitle?: string;
 }
 
 interface NavSection {
-    title: string;
+    key: string;
     items: NavItem[];
 }
 
@@ -20,44 +21,51 @@ interface NavProps {
 
 const navSections: NavSection[] = [
     {
-        title: "Hotel at a Glance",
+        key: "hotelAtAGlance",
         items: [
-            { title: "Concept", href: "#concept", subtitle: "sublime modern minimalism" },
-            { title: "Location", href: "#location", subtitle: "an oasis of peace and quiet" },
-            { title: "Explore Praiano", href: "#explore", subtitle: "Amalfi Coast's best kept secret" },
-            { title: "Our Sustainability Journey", href: "#sustainability" },
-            { title: "Shop CA", href: "#shop", subtitle: "bring home our world of style" },
+            { key: "concept", href: "#concept" },
+            { key: "location", href: "#location" },
+            { key: "explorePraiano", href: "#explore" },
+            { key: "sustainability", href: "#sustainability" },
+            { key: "shopCA", href: "#shop" },
         ],
     },
     {
-        title: "Suites",
+        key: "suites",
         items: [
-            { title: "Angelina Suite", href: "#angelina", subtitle: "the ethos of casa angelina" },
-            { title: "Azure Suite", href: "#azure", subtitle: "launched in April 2023" },
-            { title: "Vermarine Suite", href: "#vermarine", subtitle: "newly launched in April 2024" },
+            { key: "angelinaSuite", href: "#angelina" },
+            { key: "azureSuite", href: "#azure" },
+            { key: "vermarine", href: "#vermarine" },
         ],
     },
     {
-        title: "Rooms",
+        key: "rooms",
         items: [
-            { title: "Grand De Luxe", href: "#grand", subtitle: "our style statement" },
-            { title: "Deluxe Corner Sea View", href: "#deluxe", subtitle: "where style and spaciousness converge" },
-            { title: "Terrace", href: "#terrace", subtitle: "slow living" },
-            { title: "Relaxing", href: "#relaxing", subtitle: "tranquil beauty" },
+            { key: "grandDeLuxe", href: "#grand" },
+            { key: "deluxeCorner", href: "#deluxe" },
+            { key: "terrace", href: "#terrace" },
+            { key: "relaxing", href: "#relaxing" },
         ],
     },
     {
-        title: "Dining",
+        key: "dining",
         items: [
-            { title: "Taste", href: "#taste", subtitle: "a mediterranean feast" },
-            { title: "Breakfast", href: "#breakfast", subtitle: "mediterranean mornings" },
-            { title: "Un Piano Nel Cielo", href: "#piano", subtitle: "italian fine dining" },
-            { title: "Seascape Cocktail Bar", href: "#cocktail", subtitle: "delicious cocktails & stunning views" },
+            { key: "taste", href: "#taste" },
+            { key: "breakfast", href: "#breakfast" },
+            { key: "piano", href: "#piano" },
+            { key: "cocktail", href: "#cocktail" },
         ],
     },
 ];
 
 export default function Nav({ isOpen, onClose }: NavProps) {
+    const { t, locale, setLocale } = useTranslation();
+
+    const handleLanguageChange = (newLocale: Locale, e: React.MouseEvent) => {
+        e.preventDefault();
+        setLocale(newLocale);
+    };
+
     return (
         <nav className={`nav-overlay ${isOpen ? "active" : ""}`}>
             {/* Background Video */}
@@ -88,7 +96,7 @@ export default function Nav({ isOpen, onClose }: NavProps) {
                         {navSections.map((section, idx) => (
                             <div key={idx} className="nav-section">
                                 <div className="nav-section-title">
-                                    <span>{section.title}</span>
+                                    <span>{t(`nav.sections.${section.key}`)}</span>
                                 </div>
                                 <div className="nav-section-items">
                                     {section.items.map((item, itemIdx) => (
@@ -99,10 +107,10 @@ export default function Nav({ isOpen, onClose }: NavProps) {
                                             style={{ transitionDelay: `${(idx * 100) + (itemIdx * 50)}ms` }}
                                             onClick={onClose}
                                         >
-                                            {item.title}
-                                            {item.subtitle && (
+                                            {t(`nav.items.${item.key}.title`)}
+                                            {t(`nav.items.${item.key}.subtitle`) !== `nav.items.${item.key}.subtitle` && (
                                                 <span className="nav-item-subtitle">
-                                                    <span>{item.subtitle}</span>
+                                                    <span>{t(`nav.items.${item.key}.subtitle`)}</span>
                                                     <svg className="nav-arrow" viewBox="0 0 14.37 14.37">
                                                         <path d="M14.37,7.19c0,0.55-0.45,1-1,1H3.41l4.95,4.95c0.39,0.39,0.39,1.02,0,1.41 c-0.2,0.2-0.45,0.29-0.71,0.29s-0.51-0.1-0.71-0.29L0.29,7.9c-0.39-0.39-0.39-1.02,0-1.41l6.65-6.65c0.39-0.39,1.02-0.39,1.41,0 s0.39,1.02,0,1.41L3.41,6.19h9.96C13.92,6.19,14.37,6.64,14.37,7.19z" />
                                                     </svg>
@@ -127,8 +135,20 @@ export default function Nav({ isOpen, onClose }: NavProps) {
                         </a>
                     </div>
                     <div className="nav-langs">
-                        <a href="#" className="active">English</a>
-                        <a href="#">Italiano</a>
+                        <a
+                            href="#"
+                            className={locale === "en" ? "active" : ""}
+                            onClick={(e) => handleLanguageChange("en", e)}
+                        >
+                            English
+                        </a>
+                        <a
+                            href="#"
+                            className={locale === "vi" ? "active" : ""}
+                            onClick={(e) => handleLanguageChange("vi", e)}
+                        >
+                            Tiếng Việt
+                        </a>
                     </div>
                 </div>
             </div>

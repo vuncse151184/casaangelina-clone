@@ -1,18 +1,24 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { getResorts } from "../lib/strapi";
 import type { Resort } from "../lib/types";
+import { useTranslation } from "../i18n/I18nContext";
 
 export const dynamic = "force-dynamic";
 
-export default async function RoomsPage() {
-    let resorts: Resort[] = [];
-    let error: string | null = null;
+export default function RoomsPage() {
+    const { t } = useTranslation();
+    const [resorts, setResorts] = useState<Resort[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    try {
-        const response = await getResorts("gallery");
-        resorts = response.data;
-    } catch (e) {
-        error = e instanceof Error ? e.message : "Failed to load resorts";
-    }
+    useEffect(() => {
+        getResorts("gallery")
+            .then((res) => setResorts(res.data))
+            .catch((e) => setError(e instanceof Error ? e.message : "Failed to load"))
+            .finally(() => setLoading(false));
+    }, []);
 
     return (
         <main className="min-h-screen bg-white">
@@ -30,7 +36,7 @@ export default async function RoomsPage() {
                         className="text-[#8b7355] font-light uppercase tracking-[0.3em]"
                         style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
                     >
-                        Our Rooms & Suites
+                        {t("rooms.pageTitle")}
                     </h1>
                     <div className="w-16 h-px bg-[#d4c4b0] mx-auto mt-6" />
                 </div>
@@ -43,12 +49,12 @@ export default async function RoomsPage() {
                         <div className="text-center py-20">
                             <p className="text-[#a89680]">{error}</p>
                             <p className="text-sm text-[#d4c4b0] mt-2">
-                                Please ensure Strapi is running and public access is enabled.
+                                {t("rooms.errorHint")}
                             </p>
                         </div>
                     ) : resorts.length === 0 ? (
                         <div className="text-center py-20">
-                            <p className="text-[#a89680]">No rooms available at this time.</p>
+                            <p className="text-[#a89680]">{t("rooms.noRooms")}</p>
                         </div>
                     ) : (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -68,7 +74,7 @@ export default async function RoomsPage() {
                                             />
                                         ) : (
                                             <div className="w-full h-full bg-[#f5f0eb] flex items-center justify-center">
-                                                <span className="text-[#d4c4b0]">No image</span>
+                                                <span className="text-[#d4c4b0]">{t("rooms.noImage")}</span>
                                             </div>
                                         )}
                                         {/* Overlay */}
@@ -83,7 +89,7 @@ export default async function RoomsPage() {
                                         <p className="text-[#a89680] text-sm mb-3">{resort.location}</p>
                                     )}
                                     <div className="flex items-center gap-2 text-[#d4c4b0] text-sm uppercase tracking-[0.1em]">
-                                        <span>View Details</span>
+                                        <span>{t("rooms.viewDetails")}</span>
                                         <svg
                                             className="w-4 h-4 transition-transform group-hover:translate-x-2"
                                             fill="none"

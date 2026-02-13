@@ -1,14 +1,27 @@
 "use client";
 
+import useScrollFadeIn from "../hooks/useScrollFadeIn";
+import { useTranslation } from "../i18n/I18nContext";
+
 export default function EthosSection() {
-    const services = [
-        { name: "Wellbeing", href: "/services/wellbeing" },
-        { name: "Pool", href: "/services/pool" },
-        { name: "Beach", href: "/services/beach" },
-        { name: "The Grounds", href: "/services/grounds" },
-        { name: "Our Boats", href: "/services/boats" },
-        { name: "Concierge", href: "/services/concierge" },
-    ];
+    const { t } = useTranslation();
+
+    const serviceKeys = ["wellbeing", "pool", "beach", "theGrounds", "ourBoats", "concierge"] as const;
+    const serviceHrefs: Record<string, string> = {
+        wellbeing: "/services/wellbeing",
+        pool: "/services/pool",
+        beach: "/services/beach",
+        theGrounds: "/services/grounds",
+        ourBoats: "/services/boats",
+        concierge: "/services/concierge",
+    };
+
+    const headingFade = useScrollFadeIn({ delay: 0 });
+    const desc1Fade = useScrollFadeIn({ delay: 100 });
+    const desc2Fade = useScrollFadeIn({ delay: 200 });
+    const servicesFade = useScrollFadeIn({ delay: 300 });
+    const imageFade = useScrollFadeIn({ delay: 200, translateY: 80 });
+    const decorFade = useScrollFadeIn({ delay: 400 });
 
     return (
         <section className="relative min-h-screen bg-white py-24 px-6 lg:px-16">
@@ -18,34 +31,41 @@ export default function EthosSection() {
                     {/* Left Column - Ethos */}
                     <div>
                         <h2
+                            ref={headingFade.ref}
+                            style={{ ...headingFade.style, fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
                             className="text-[#d4c4b0] font-light uppercase tracking-[0.5em] mb-8"
-                            style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
                         >
-                            e t h o s
+                            {t("ethos.heading")}
                         </h2>
-                        <p className="text-[#8b7355] leading-relaxed text-lg mb-8">
-                            Understated chic is our design ethos and subtle details are our
-                            raison d&apos;être. We ensure everything about your stay is immaculate,
-                            from the pillowy white cotton sheets dressing your bed to the
-                            thoughtfully-placed garden-grown herb garnishes on your plate.
+                        <p
+                            ref={desc1Fade.ref}
+                            style={desc1Fade.style}
+                            className="text-[#8b7355] leading-relaxed text-lg mb-8"
+                        >
+                            {t("ethos.desc1")}
                         </p>
-                        <p className="text-[#a89680] leading-relaxed">
-                            Clean lines and lashings of white underscore the rich tones of
-                            nature&apos;s palette. An airy refuge, our boutique hotel is a place
-                            where guests can rediscover the forgotten rhythms of long,
-                            drawn-out days and easy, lingering evenings.
+                        <p
+                            ref={desc2Fade.ref}
+                            style={desc2Fade.style}
+                            className="text-[#a89680] leading-relaxed"
+                        >
+                            {t("ethos.desc2")}
                         </p>
 
                         {/* Services Grid */}
-                        <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                            {services.map((service) => (
+                        <div
+                            ref={servicesFade.ref}
+                            style={servicesFade.style}
+                            className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4"
+                        >
+                            {serviceKeys.map((key) => (
                                 <a
-                                    key={service.name}
-                                    href={service.href}
+                                    key={key}
+                                    href={serviceHrefs[key]}
                                     className="group relative overflow-hidden rounded-sm border border-[#e8e0d8] p-4 transition-all hover:border-[#8b7355] hover:shadow-lg"
                                 >
                                     <span className="text-sm uppercase tracking-[0.15em] text-[#8b7355] group-hover:text-[#6b5340] transition-colors">
-                                        {service.name}
+                                        {t(`ethos.services.${key}`)}
                                     </span>
                                     <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#d4c4b0] transition-all group-hover:w-full" />
                                 </a>
@@ -54,10 +74,10 @@ export default function EthosSection() {
                     </div>
 
                     {/* Right Column - Image */}
-                    <div className="relative">
+                    <div ref={imageFade.ref} style={imageFade.style} className="relative">
                         <div className="aspect-[3/4] overflow-hidden">
                             <img
-                                src="/images/ethos-room.jpg"
+                                src="https://glamorousconcept.com/wp-content/uploads/2024/09/piAeY-1.jpg"
                                 alt="Minimalist room design"
                                 className="w-full h-full object-cover"
                                 onError={(e) => {
@@ -72,7 +92,7 @@ export default function EthosSection() {
             </div>
 
             {/* Decorative Element */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+            <div ref={decorFade.ref} style={decorFade.style} className="absolute bottom-12 left-1/2 -translate-x-1/2">
                 <div className="w-px h-16 bg-gradient-to-b from-transparent via-[#d4c4b0] to-transparent" />
             </div>
         </section>

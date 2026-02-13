@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "./i18n/I18nContext";
 import Lenis from "lenis";
 import MenuToggle from "./components/MenuToggle";
 import Nav from "./components/Nav";
@@ -8,8 +9,10 @@ import EthosSection from "./components/EthosSection";
 import DiningSection from "./components/DiningSection";
 import ExperiencesSection from "./components/ExperiencesSection";
 import InstagramSection from "./components/InstagramSection";
+import FooterSection from "./components/FooterSection";
 
 export default function CinematicHero() {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -162,14 +165,14 @@ export default function CinematicHero() {
   const heroElementsOpacity = Math.max(0, 1 - scrollProgress * 2);
   const ANCHOR_PROGRESS = 0.85;
   const p = Math.min(scrollProgress, ANCHOR_PROGRESS);
-  const t = p / ANCHOR_PROGRESS;
+  const scrollT = p / ANCHOR_PROGRESS;
 
   // target rectangle (matches your red box)
   const FINAL_X = 18; // vw → right
   const FINAL_Y = 22; // vh → down
 
-  const x = t * (directionRef.current === "down" ? FINAL_X : -FINAL_X);
-  const y = t * FINAL_Y;
+  const x = scrollT * (directionRef.current === "down" ? FINAL_X : -FINAL_X);
+  const y = scrollT * FINAL_Y;
 
   const heroOpacity = Math.max(0, 1 - scrollProgress * 2);
 
@@ -254,11 +257,11 @@ export default function CinematicHero() {
         >
           <div className="mb-8 h-px w-16 bg-white/60" />
           <h1 className="mb-4 text-white tracking-[0.4em] uppercase">
-            Serenity Resort
+            {t("hero.title")}
           </h1>
           <div className="mb-6 h-px w-24 bg-white/40" />
           <p className="text-white/80 uppercase tracking-[0.2em]">
-            A Mediterranean Sanctuary
+            {t("hero.subtitle")}
           </p>
         </div>
 
@@ -270,10 +273,10 @@ export default function CinematicHero() {
           }}
         >
           <span className="mb-2 text-xs font-light tracking-[0.2em] text-white/50 uppercase">
-            Scroll down
+            {t("hero.scrollDown")}
           </span>
           <span className="text-xs font-light tracking-[0.1em] text-white/30 uppercase">
-            to start the experience
+            {t("hero.scrollHint")}
           </span>
           <svg
             className="mt-4 h-10 w-4 text-white animate-bounce"
@@ -364,18 +367,11 @@ export default function CinematicHero() {
                   color: "#d4c4b0",
                 }}
               >
-                <span className="inline-block" style={{ transitionDelay: "0ms" }}>
-                  L
-                </span>
-                <span className="inline-block" style={{ transitionDelay: "100ms" }}>
-                  O
-                </span>
-                <span className="inline-block" style={{ transitionDelay: "200ms" }}>
-                  O
-                </span>
-                <span className="inline-block" style={{ transitionDelay: "300ms" }}>
-                  K
-                </span>
+                {t("content.look").split("").map((char, i) => (
+                  <span key={i} className="inline-block" style={{ transitionDelay: `${i * 100}ms` }}>
+                    {char}
+                  </span>
+                ))}
               </h2>
             </div>
 
@@ -396,8 +392,9 @@ export default function CinematicHero() {
                   color: "#8b7355",
                 }}
               >
-                <span className="inline-block">BEYOND</span>
-                <span className="inline-block">LIMITS.</span>
+                {t("content.beyondLimits").split(" ").map((word, i) => (
+                  <span key={i} className="inline-block mr-1">{word}</span>
+                ))}
               </p>
             </div>
 
@@ -441,7 +438,9 @@ export default function CinematicHero() {
                   color: "#d4c4b0",
                 }}
               >
-                FIND
+                {t("content.find").split(" ").map((word, i) => (
+                  <span key={i} className={`inline-block ${i > 0 ? "pl-2" : ""}`}>{word}</span>
+                ))}
               </span>
             </div>
           </div>
@@ -462,8 +461,9 @@ export default function CinematicHero() {
                 color: "#8b7355",
               }}
             >
-              <span className="inline-block">TRUE</span>
-              <span className="inline-block pl-20">PERFECTION.</span>
+              {t("content.truePerfection").split(" ").map((word, i) => (
+                <span key={i} className={`inline-block ${i > 0 ? "pl-20" : ""}`}>{word}</span>
+              ))}
             </h2>
           </div>
 
@@ -513,19 +513,22 @@ export default function CinematicHero() {
             </svg>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* ========== ETHOS SECTION ========== */}
-      <EthosSection />
+      < EthosSection />
 
       {/* ========== DINING SECTION ========== */}
-      <DiningSection />
+      < DiningSection />
 
       {/* ========== EXPERIENCES SECTION ========== */}
-      <ExperiencesSection />
+      < ExperiencesSection />
 
       {/* ========== INSTAGRAM SECTION ========== */}
-      <InstagramSection />
-    </div>
+      < InstagramSection />
+
+      {/* ========== FOOTER SECTION ========== */}
+      < FooterSection />
+    </div >
   );
 }

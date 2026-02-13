@@ -1,0 +1,519 @@
+/* =============================================
+   FOOTER SECTION - Horizontal Scroll Layout
+   ============================================= */
+
+#footerSticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+/* ---- Horizontal Scroll Container ---- */
+.footerHorizontalContainer {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+/* ---- Each panel takes full viewport width ---- */
+.footerPanel {
+    flex-shrink: 0;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ---- Footer Main ---- */
+#footerMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#footerMain .mainBackground {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+#footerMain .mainBackground img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#footerMain .mainContainer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ---- Footer Left (Logo + Info + Copyright) ---- */
+#footerLeft {
+    max-width: 400px;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+#footerLogo {
+    width: 680px;
+    margin-bottom: 40px;
+}
+
+#footerLogo svg {
+    width: 100%;
+    height: auto;
+}
+
+.fillColor {
+    fill: #ffffff;
+}
+
+#footerInfo {
+    margin-top: 30px;
+}
+
+#footerInfo p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 24px;
+    line-height: 2;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+}
+
+#footerInfo a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#footerInfo a:hover {
+    color: #ffffff;
+}
+
+#copyright {
+    margin-top: 30px;
+}
+
+#copyright p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* ---- Footer Right (Socials) ---- */
+#footerRight {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.socials {
+    display: flex;
+    gap: 20px;
+}
+
+.socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+}
+
+.socials a:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.socials a svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* =============================================
+   FOOTER DATA SECTION (Panel 2)
+   ============================================= */
+
+#footerData {
+    background: #111111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px 60px;
+    position: relative;
+    z-index: 10;
+}
+
+/* ---- Footer Data Top (Date + Days + Weather) ---- */
+#footerDataTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* Date */
+#date {
+    min-width: 200px;
+}
+
+#date .year {
+    color: #a89680;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0 0 6px 0;
+}
+
+#date .day {
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+    margin: 0;
+}
+
+/* Days */
+#days {
+    margin-top: 10px;
+}
+
+#days .weatherContainer {
+    display: flex;
+    gap: 4px;
+}
+
+.day_name {
+    position: relative;
+    padding: 8px 14px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.day_name p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.day_name .day_back {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 4px;
+}
+
+.day_name:hover .day_back,
+.day_name.active .day_back {
+    opacity: 1;
+}
+
+.day_name:hover p,
+.day_name.active p {
+    color: #ffffff;
+}
+
+/* ---- Weather ---- */
+#weather {
+    margin-top: 10px;
+    flex: 1;
+    min-width: 300px;
+}
+
+#weatherBox {
+    margin-bottom: 30px;
+}
+
+.meteo_row {
+    margin-bottom: 16px;
+}
+
+.meteo_row .weatherContainer {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.meteo_col {
+    flex: 1;
+    text-align: center;
+}
+
+.meteo_ico_big {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 8px;
+}
+
+.meteo_ico_big img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+}
+
+.meteo_stats {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.data.meteo_col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.wind_direction,
+.wind_speed,
+.wave_height {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.wind_direction img,
+.wind_speed img,
+.wave_height img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+}
+
+.meteo_small {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.temp_text {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+
+.temp_num {
+    font-size: 28px;
+}
+
+.temp_deg {
+    font-size: 16px;
+    vertical-align: super;
+    opacity: 0.6;
+}
+
+/* ---- Hourly Box ---- */
+#hourlyBox {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 20px;
+}
+
+.hourly_row .weatherContainer {
+    display: flex;
+    gap: 2px;
+}
+
+.hour_box {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hour_ico {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 10px;
+}
+
+.hour_ico img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.5;
+    transition: all 0.4s ease;
+}
+
+.hour_box .separator {
+    width: 1px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 auto 8px;
+}
+
+.hour_box .active_line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #a89680;
+    transition: width 0.4s ease;
+}
+
+.hour_box.active .active_line,
+.hour_box:hover .active_line {
+    width: 100%;
+}
+
+.hour_box .hour_text p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.hour_box.active .hour_text p,
+.hour_box:hover .hour_text p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.hour_box.active .hour_ico img,
+.hour_box:hover .hour_ico img {
+    opacity: 0.9;
+}
+
+/* =============================================
+   FOOTER DATA BOTTOM (Partners)
+   ============================================= */
+
+#footerDataBottom {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+#footerDataBottom .weatherContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.partner {
+    height: 30px;
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+}
+
+.partner:hover {
+    opacity: 0.7;
+}
+
+.partner img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 1024px) {
+    #footerMain .mainContainer {
+        flex-direction: column;
+        position: relative;
+        padding: 60px 40px;
+        gap: 40px;
+    }
+
+    #footerRight {
+        align-self: flex-start;
+    }
+
+    #footerDataTop {
+        flex-direction: column;
+    }
+
+    #days {
+        display: none;
+    }
+
+    .meteo_row .weatherContainer {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #footerMain .mainContainer {
+        padding: 40px 24px;
+    }
+
+    #footerData {
+        padding: 30px 24px;
+    }
+
+    #footerLogo {
+        width: 200px;
+    }
+
+    .hourly_row .weatherContainer {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .hour_box {
+        width: 25%;
+        flex: none;
+    }
+
+    #footerDataBottom .weatherContainer {
+        gap: 24px;
+    }
+
+    .partner {
+        height: 22px;
+    }
+}

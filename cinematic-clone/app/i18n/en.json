@@ -1,0 +1,174 @@
+{
+    "hero": {
+        "title": "Serenity Resort",
+        "subtitle": "A Mediterranean Sanctuary",
+        "scrollDown": "Scroll down",
+        "scrollHint": "to start the experience"
+    },
+    "content": {
+        "look": "LOOK",
+        "beyondLimits": "BEYOND LIMITS.",
+        "find": "FIND",
+        "truePerfection": "TRUE PERFECTION."
+    },
+    "ethos": {
+        "heading": "e t h o s",
+        "desc1": "Understated chic is our design ethos and subtle details are our raison d'être. We ensure everything about your stay is immaculate, from the pillowy white cotton sheets dressing your bed to the thoughtfully-placed garden-grown herb garnishes on your plate.",
+        "desc2": "Clean lines and lashings of white underscore the rich tones of nature's palette. An airy refuge, our boutique hotel is a place where guests can rediscover the forgotten rhythms of long, drawn-out days and easy, lingering evenings.",
+        "services": {
+            "wellbeing": "Wellbeing",
+            "pool": "Pool",
+            "beach": "Beach",
+            "theGrounds": "The Grounds",
+            "ourBoats": "Our Boats",
+            "concierge": "Concierge"
+        }
+    },
+    "dining": {
+        "heading": "t a s t e",
+        "description": "Fine dining, Amalfi style. At Casa Angelina, the rich flavors and ingredients of Campania inspire every dish.",
+        "venues": {
+            "unPiano": {
+                "name": "Un Piano Nel Cielo",
+                "tagline": "Campania-inspired cuisine paired with spectacular sea views"
+            },
+            "seascape": {
+                "name": "Seascape Restaurant",
+                "tagline": "Relaxed all day dining"
+            },
+            "cocktailBar": {
+                "name": "Cocktail Bar",
+                "tagline": "Delicious cocktails & stunning views"
+            },
+            "wineCellar": {
+                "name": "Wine Cellar",
+                "tagline": "An award-winning wine selection"
+            },
+            "breakfast": {
+                "name": "Breakfast",
+                "tagline": "Mediterranean mornings start with a full-spread breakfast"
+            },
+            "rooftop": {
+                "name": "Rooftop Terrace",
+                "tagline": "Private dining & intimate celebrations"
+            }
+        }
+    },
+    "experiences": {
+        "heading": "e x p e r i e n c e s",
+        "moreDetails": "More Details",
+        "items": {
+            "chefOnBoard": {
+                "title": "Chef on Board",
+                "subtitle": "Amalfi Flavors, At Sea Level",
+                "description": "An enjoyable and delicious experience, full of taste and adventure. An unusual way to enjoy authentic Neapolitan cuisine."
+            },
+            "fineDriving": {
+                "title": "Fine Driving",
+                "subtitle": "A Dose of Retro Magic",
+                "description": "Few places in Italy exemplify la dolce vita quite like the Amalfi Coast. Experience it in vintage style."
+            },
+            "romanceRetreat": {
+                "title": "Romance Retreat",
+                "subtitle": "A Starry-Eyed Weekend Stay",
+                "description": "With our dreamy cliff-side setting and pared-back, sophisticated style, Casa Angelina is the ultimate romantic getaway."
+            },
+            "bodySoul": {
+                "title": "Body & Soul",
+                "subtitle": "Getting Back to Your Best Self",
+                "description": "Decompress with this three-night wellness package, all about making you feel fit, healthy and stress-free."
+            }
+        }
+    },
+    "instagram": {
+        "label": "I N S T A G R A M",
+        "tagline": "Less is more..."
+    },
+    "nav": {
+        "sections": {
+            "hotelAtAGlance": "Hotel at a Glance",
+            "suites": "Suites",
+            "rooms": "Rooms",
+            "dining": "Dining"
+        },
+        "items": {
+            "concept": {
+                "title": "Concept",
+                "subtitle": "sublime modern minimalism"
+            },
+            "location": {
+                "title": "Location",
+                "subtitle": "an oasis of peace and quiet"
+            },
+            "explorePraiano": {
+                "title": "Explore Praiano",
+                "subtitle": "Amalfi Coast's best kept secret"
+            },
+            "sustainability": {
+                "title": "Our Sustainability Journey"
+            },
+            "shopCA": {
+                "title": "Shop CA",
+                "subtitle": "bring home our world of style"
+            },
+            "angelinaSuite": {
+                "title": "Angelina Suite",
+                "subtitle": "the ethos of casa angelina"
+            },
+            "azureSuite": {
+                "title": "Azure Suite",
+                "subtitle": "launched in April 2023"
+            },
+            "vermarine": {
+                "title": "Vermarine Suite",
+                "subtitle": "newly launched in April 2024"
+            },
+            "grandDeLuxe": {
+                "title": "Grand De Luxe",
+                "subtitle": "our style statement"
+            },
+            "deluxeCorner": {
+                "title": "Deluxe Corner Sea View",
+                "subtitle": "where style and spaciousness converge"
+            },
+            "terrace": {
+                "title": "Terrace",
+                "subtitle": "slow living"
+            },
+            "relaxing": {
+                "title": "Relaxing",
+                "subtitle": "tranquil beauty"
+            },
+            "taste": {
+                "title": "Taste",
+                "subtitle": "a mediterranean feast"
+            },
+            "breakfast": {
+                "title": "Breakfast",
+                "subtitle": "mediterranean mornings"
+            },
+            "piano": {
+                "title": "Un Piano Nel Cielo",
+                "subtitle": "italian fine dining"
+            },
+            "cocktail": {
+                "title": "Seascape Cocktail Bar",
+                "subtitle": "delicious cocktails & stunning views"
+            }
+        }
+    },
+    "rooms": {
+        "pageTitle": "Our Rooms & Suites",
+        "viewDetails": "View Details",
+        "noImage": "No image",
+        "noRooms": "No rooms available at this time.",
+        "errorHint": "Please ensure Strapi is running and public access is enabled."
+    },
+    "footer": {
+        "address": "Via Capriglione, 147",
+        "city": "84010 Praiano",
+        "region": "Amalfi Coast, SA",
+        "country": "ITALY",
+        "copyright": "© Casa Angelina 2026 | all rights reserved"
+    }
+}
