@@ -1,18 +1,74 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
 import { useTranslation } from "../i18n/I18nContext";
+import { getExperiences } from "../lib/strapi";
+import type { ExperienceData } from "../lib/types";
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 interface Experience {
     key: string;
+    title: string;
+    subtitle: string;
+    description: string;
     image: string;
     href: string;
+}
+
+const DEFAULT_EXPERIENCES: Experience[] = [
+    {
+        key: "chefOnBoard",
+        title: "Chef On Board",
+        subtitle: "Culinary Journey",
+        description: "A unique culinary experience aboard a private yacht, with a dedicated chef preparing exquisite dishes.",
+        image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800",
+        href: "/experiences/chef-on-board",
+    },
+    {
+        key: "fineDriving",
+        title: "Fine Driving",
+        subtitle: "Amalfi Coast Tour",
+        description: "Explore the breathtaking Amalfi Coast in style with a curated driving experience.",
+        image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
+        href: "/experiences/fine-driving",
+    },
+    {
+        key: "romanceRetreat",
+        title: "Romance Retreat",
+        subtitle: "Couples Experience",
+        description: "An exclusive retreat designed for couples seeking a romantic getaway on the coast.",
+        image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+        href: "/experiences/romance-retreat",
+    },
+    {
+        key: "bodySoul",
+        title: "Body & Soul",
+        subtitle: "Wellness Journey",
+        description: "A holistic wellness experience combining spa treatments, yoga, and mindful activities.",
+        image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800",
+        href: "/experiences/body-soul",
+    },
+];
+
+function mapApiToExperience(item: ExperienceData): Experience {
+    const imageUrl = item.image
+        ? `${STRAPI_URL}${item.image.url}`
+        : "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800";
+    return {
+        key: item.documentId,
+        title: item.title,
+        subtitle: item.subtitle || "",
+        description: item.description || "",
+        image: imageUrl,
+        href: item.href || "#",
+    };
 }
 
 function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
     const imageFade = useScrollFadeIn({ delay: 0, translateY: 70 });
     const contentFade = useScrollFadeIn({ delay: 150, translateY: 50 });
-    const { t } = useTranslation();
 
     return (
         <div
@@ -29,7 +85,7 @@ function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
                 <div className="aspect-[16/10] overflow-hidden group">
                     <img
                         src={exp.image}
-                        alt={t(`experiences.items.${exp.key}.title`)}
+                        alt={exp.title}
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
                 </div>
@@ -50,22 +106,22 @@ function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
                     }`}
             >
                 <span className="text-[#d4c4b0] uppercase tracking-[0.2em] text-sm">
-                    {t(`experiences.items.${exp.key}.subtitle`)}
+                    {exp.subtitle}
                 </span>
                 <h3
                     className="text-[#8b7355] font-light uppercase tracking-[0.1em] mt-4 mb-6"
                     style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}
                 >
-                    {t(`experiences.items.${exp.key}.title`)}
+                    {exp.title}
                 </h3>
                 <p className="text-[#a89680] leading-relaxed mb-8 max-w-md">
-                    {t(`experiences.items.${exp.key}.description`)}
+                    {exp.description}
                 </p>
                 <a
                     href={exp.href}
                     className="inline-flex items-center gap-3 text-[#8b7355] uppercase tracking-[0.15em] text-sm hover:text-[#6b5340] transition-colors group"
                 >
-                    <span>{t("experiences.moreDetails")}</span>
+                    <span>More Details</span>
                     <svg
                         className="w-4 h-4 transition-transform group-hover:translate-x-2"
                         fill="none"
@@ -87,29 +143,17 @@ function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
 
 export default function ExperiencesSection() {
     const { t } = useTranslation();
+    const [experiences, setExperiences] = useState<Experience[]>(DEFAULT_EXPERIENCES);
 
-    const experiences: Experience[] = [
-        {
-            key: "chefOnBoard",
-            image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800",
-            href: "/experiences/chef-on-board",
-        },
-        {
-            key: "fineDriving",
-            image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800",
-            href: "/experiences/fine-driving",
-        },
-        {
-            key: "romanceRetreat",
-            image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
-            href: "/experiences/romance-retreat",
-        },
-        {
-            key: "bodySoul",
-            image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800",
-            href: "/experiences/body-soul",
-        },
-    ];
+    useEffect(() => {
+        getExperiences()
+            .then((res) => {
+                if (res.data && res.data.length > 0) {
+                    setExperiences(res.data.map(mapApiToExperience));
+                }
+            })
+            .catch(() => { /* fallback to hardcoded */ });
+    }, []);
 
     const headingFade = useScrollFadeIn({ delay: 0 });
     const dividerFade = useScrollFadeIn({ delay: 100 });

@@ -1,17 +1,81 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
 import { useTranslation } from "../i18n/I18nContext";
+import { getDiningVenues } from "../lib/strapi";
+import type { DiningVenueData } from "../lib/types";
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
 interface DiningVenue {
     key: string;
+    name: string;
+    tagline: string;
     image: string;
     href: string;
 }
 
+const DEFAULT_VENUES: DiningVenue[] = [
+    {
+        key: "unPiano",
+        name: "Un Piano Nel Cielo",
+        tagline: "A Michelin star experience above the clouds",
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600",
+        href: "/dining/un-piano-nel-cielo",
+    },
+    {
+        key: "seascape",
+        name: "Seascape",
+        tagline: "Mediterranean flavors with ocean views",
+        image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600",
+        href: "/dining/seascape",
+    },
+    {
+        key: "cocktailBar",
+        name: "Cocktail Bar",
+        tagline: "Crafted cocktails in an intimate setting",
+        image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600",
+        href: "/dining/cocktail-bar",
+    },
+    {
+        key: "wineCellar",
+        name: "Wine Cellar",
+        tagline: "A curated selection of the finest wines",
+        image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600",
+        href: "/dining/wine-cellar",
+    },
+    {
+        key: "breakfast",
+        name: "Breakfast",
+        tagline: "Start your day with a Mediterranean feast",
+        image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600",
+        href: "/dining/breakfast",
+    },
+    {
+        key: "rooftop",
+        name: "Rooftop",
+        tagline: "Dining under the stars",
+        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600",
+        href: "/dining/rooftop",
+    },
+];
+
+function mapApiToVenue(item: DiningVenueData): DiningVenue {
+    const imageUrl = item.image
+        ? `${STRAPI_URL}${item.image.url}`
+        : "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600";
+    return {
+        key: item.slug || item.documentId,
+        name: item.name,
+        tagline: item.tagline || "",
+        image: imageUrl,
+        href: item.href || `/dining/${item.slug}`,
+    };
+}
+
 function DiningCard({ venue, index }: { venue: DiningVenue; index: number }) {
     const cardFade = useScrollFadeIn<HTMLAnchorElement>({ delay: index * 100, translateY: 50 });
-    const { t } = useTranslation();
 
     return (
         <a
@@ -24,20 +88,19 @@ function DiningCard({ venue, index }: { venue: DiningVenue; index: number }) {
             <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                     src={venue.image}
-                    alt={t(`dining.venues.${venue.key}.name`)}
+                    alt={venue.name}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                {/* Subtle bottom gradient — always visible, intensifies on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent transition-opacity duration-500 group-hover:from-black/50" />
             </div>
 
             {/* Content */}
             <div className="p-6">
                 <h3 className="text-[#8b7355] font-light text-lg uppercase tracking-[0.1em] mb-2 group-hover:text-[#6b5340] transition-colors duration-300">
-                    {t(`dining.venues.${venue.key}.name`)}
+                    {venue.name}
                 </h3>
                 <p className="text-[#a89680] max-w-[90%] line-clamp-2 text-sm leading-relaxed group-hover:text-[#8b7355] transition-colors duration-300">
-                    {t(`dining.venues.${venue.key}.tagline`)}
+                    {venue.tagline}
                 </p>
             </div>
 
@@ -63,39 +126,17 @@ function DiningCard({ venue, index }: { venue: DiningVenue; index: number }) {
 
 export default function DiningSection() {
     const { t } = useTranslation();
+    const [venues, setVenues] = useState<DiningVenue[]>(DEFAULT_VENUES);
 
-    const venues: DiningVenue[] = [
-        {
-            key: "unPiano",
-            image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600",
-            href: "/dining/un-piano-nel-cielo",
-        },
-        {
-            key: "seascape",
-            image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600",
-            href: "/dining/seascape",
-        },
-        {
-            key: "cocktailBar",
-            image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600",
-            href: "/dining/cocktail-bar",
-        },
-        {
-            key: "wineCellar",
-            image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600",
-            href: "/dining/wine-cellar",
-        },
-        {
-            key: "breakfast",
-            image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600",
-            href: "/dining/breakfast",
-        },
-        {
-            key: "rooftop",
-            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600",
-            href: "/dining/rooftop",
-        },
-    ];
+    useEffect(() => {
+        getDiningVenues()
+            .then((res) => {
+                if (res.data && res.data.length > 0) {
+                    setVenues(res.data.map(mapApiToVenue));
+                }
+            })
+            .catch(() => { /* fallback to hardcoded */ });
+    }, []);
 
     const headingFade = useScrollFadeIn({ delay: 0 });
     const descFade = useScrollFadeIn({ delay: 100 });

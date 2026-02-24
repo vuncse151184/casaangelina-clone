@@ -1,6 +1,12 @@
 import type {
     Resort,
     Room,
+    Ethos,
+    DiningVenueData,
+    ExperienceData,
+    InstagramPostData,
+    BlogPost,
+    SiteConfig,
     StrapiResponse,
     StrapiSingleResponse
 } from './types';
@@ -107,4 +113,90 @@ export async function getRoomBySlug(
     return fetchStrapi<StrapiResponse<Room>>(
         `/rooms?filters[slug][$eq]=${slug}&populate=${populate}`
     );
+}
+
+// ============ ETHOS (Single Type) ============
+
+/**
+ * Get the ethos section content
+ */
+export async function getEthos(populate = '*'): Promise<StrapiSingleResponse<Ethos>> {
+    return fetchStrapi<StrapiSingleResponse<Ethos>>(`/ethos?populate=${populate}`);
+}
+
+// ============ DINING VENUES ============
+
+/**
+ * Get all dining venues, sorted by order
+ */
+export async function getDiningVenues(populate = '*'): Promise<StrapiResponse<DiningVenueData>> {
+    return fetchStrapi<StrapiResponse<DiningVenueData>>(
+        `/dining-venues?populate=${populate}&sort=order:asc`
+    );
+}
+
+// ============ EXPERIENCES ============
+
+/**
+ * Get all experiences, sorted by order
+ */
+export async function getExperiences(populate = '*'): Promise<StrapiResponse<ExperienceData>> {
+    return fetchStrapi<StrapiResponse<ExperienceData>>(
+        `/experiences?populate=${populate}&sort=order:asc`
+    );
+}
+
+// ============ INSTAGRAM POSTS ============
+
+/**
+ * Get all instagram posts, sorted by order
+ */
+export async function getInstagramPosts(populate = '*'): Promise<StrapiResponse<InstagramPostData>> {
+    return fetchStrapi<StrapiResponse<InstagramPostData>>(
+        `/instagram-posts?populate=${populate}&sort=order:asc`
+    );
+}
+
+// ============ BLOGS ============
+
+/**
+ * Get all published blogs, newest first
+ */
+export async function getBlogs(populate = '*'): Promise<StrapiResponse<BlogPost>> {
+    return fetchStrapi<StrapiResponse<BlogPost>>(
+        `/blogs?populate=${populate}&sort=createdAt:desc&filters[blog_status][$eq]=PUBLISHED`
+    );
+}
+
+/**
+ * Get a single blog by slug
+ */
+export async function getBlogBySlug(
+    slug: string,
+    populate = '*'
+): Promise<StrapiResponse<BlogPost>> {
+    return fetchStrapi<StrapiResponse<BlogPost>>(
+        `/blogs?filters[slug][$eq]=${slug}&populate=${populate}`
+    );
+}
+
+/**
+ * Get a single blog by documentId
+ */
+export async function getBlogByDocumentId(
+    documentId: string,
+    populate = '*'
+): Promise<StrapiSingleResponse<BlogPost>> {
+    return fetchStrapi<StrapiSingleResponse<BlogPost>>(
+        `/blogs/${documentId}?populate=${populate}`
+    );
+}
+
+// ============ SITE CONFIG (Single Type) ============
+
+/**
+ * Get the global site configuration
+ */
+export async function getSiteConfig(populate = '*'): Promise<StrapiSingleResponse<SiteConfig>> {
+    return fetchStrapi<StrapiSingleResponse<SiteConfig>>(`/site-config?populate=${populate}`);
 }

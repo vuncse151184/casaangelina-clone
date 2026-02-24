@@ -1,0 +1,40 @@
+{
+    "kind": "collectionType",
+    "collectionName": "dining_venues",
+    "info": {
+        "singularName": "dining-venue",
+        "pluralName": "dining-venues",
+        "displayName": "DiningVenue"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "slug": {
+            "type": "uid",
+            "targetField": "name"
+        },
+        "tagline": {
+            "type": "string"
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "href": {
+            "type": "string"
+        },
+        "order": {
+            "type": "integer",
+            "default": 0
+        }
+    }
+}

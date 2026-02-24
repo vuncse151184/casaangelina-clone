@@ -170,5 +170,17 @@
         "region": "Amalfi Coast, SA",
         "country": "ITALY",
         "copyright": "© Casa Angelina 2026 | all rights reserved"
+    },
+    "blog": {
+        "pageTitle": "Journal",
+        "subtitle": "Stories & Inspirations",
+        "readMore": "Read More",
+        "backHome": "Home",
+        "backToList": "All Posts",
+        "noPosts": "No stories to share yet.",
+        "errorHint": "Please ensure Strapi is running and public access is enabled.",
+        "loading": "Loading...",
+        "gallery": "Gallery",
+        "preview": "Preview"
     }
 }

@@ -1,0 +1,208 @@
+/* =============================================
+   HEADER BAR
+   ============================================= */
+
+.header-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    transition: all 0.4s ease;
+}
+
+/* ---- Left Side ---- */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ---- Hamburger Menu Button ---- */
+.header-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.hm-line {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.header-dark .hm-line {
+    background: #5a4a3a;
+}
+
+.header-menu-btn.active .hm-line:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+}
+
+.header-menu-btn.active .hm-line:nth-child(2) {
+    opacity: 0;
+}
+
+.header-menu-btn.active .hm-line:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ---- Logo ---- */
+.header-logo {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.4s ease;
+}
+
+.header-dark .header-logo {
+    color: #5a4a3a;
+}
+
+.logo-svg {
+    width: 160px;
+    height: auto;
+}
+
+/* ---- Language Switch ---- */
+.header-lang {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 8px;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Geometria', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.lang-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lang-btn.active {
+    color: #ffffff;
+}
+
+.header-dark .lang-btn {
+    color: rgba(90, 74, 58, 0.4);
+}
+
+.header-dark .lang-btn:hover {
+    color: rgba(90, 74, 58, 0.8);
+}
+
+.header-dark .lang-btn.active {
+    color: #5a4a3a;
+}
+
+/* ---- Right Side ---- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ---- Social Icons ---- */
+.header-socials {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-socials a {
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.header-socials a:hover {
+    color: #ffffff;
+}
+
+.header-dark .header-socials a {
+    color: rgba(90, 74, 58, 0.5);
+}
+
+.header-dark .header-socials a:hover {
+    color: #5a4a3a;
+}
+
+/* ---- Book Now Button ---- */
+.header-book-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-family: 'Geometria', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.header-book-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.header-dark .header-book-btn {
+    color: #5a4a3a;
+    background: rgba(90, 74, 58, 0.08);
+    border-color: rgba(90, 74, 58, 0.2);
+}
+
+.header-dark .header-book-btn:hover {
+    background: rgba(90, 74, 58, 0.15);
+    border-color: rgba(90, 74, 58, 0.4);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .header-lang {
+        display: none;
+    }
+
+    .header-socials {
+        display: none;
+    }
+
+    .logo-svg {
+        width: 120px;
+    }
+
+    .header-bar {
+        padding: 14px 16px;
+    }
+}

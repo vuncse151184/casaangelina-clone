@@ -1,26 +1,47 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
 import { useTranslation } from "../i18n/I18nContext";
+import { getEthos } from "../lib/strapi";
+import type { Ethos, EthosService } from "../lib/types";
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+
+const DEFAULT_SERVICES: EthosService[] = [
+    { key: "wellbeing", label: "Wellbeing", href: "/services/wellbeing" },
+    { key: "pool", label: "Pool", href: "/services/pool" },
+    { key: "beach", label: "Beach", href: "/services/beach" },
+    { key: "theGrounds", label: "The Grounds", href: "/services/grounds" },
+    { key: "ourBoats", label: "Our Boats", href: "/services/boats" },
+    { key: "concierge", label: "Concierge", href: "/services/concierge" },
+];
+
+const DEFAULT_IMAGE = "https://glamorousconcept.com/wp-content/uploads/2024/09/piAeY-1.jpg";
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800";
 
 export default function EthosSection() {
     const { t } = useTranslation();
+    const [ethosData, setEthosData] = useState<Ethos | null>(null);
 
-    const serviceKeys = ["wellbeing", "pool", "beach", "theGrounds", "ourBoats", "concierge"] as const;
-    const serviceHrefs: Record<string, string> = {
-        wellbeing: "/services/wellbeing",
-        pool: "/services/pool",
-        beach: "/services/beach",
-        theGrounds: "/services/grounds",
-        ourBoats: "/services/boats",
-        concierge: "/services/concierge",
-    };
+    useEffect(() => {
+        getEthos()
+            .then((res) => setEthosData(res.data))
+            .catch(() => { /* fallback to hardcoded */ });
+    }, []);
+
+    const services = ethosData?.services ?? DEFAULT_SERVICES;
+    const imageUrl = ethosData?.image
+        ? `${STRAPI_URL}${ethosData.image.url}`
+        : DEFAULT_IMAGE;
+    const desc1 = ethosData?.description1 ?? t("ethos.desc1");
+    const desc2 = ethosData?.description2 ?? t("ethos.desc2");
 
     const headingFade = useScrollFadeIn({ delay: 0 });
     const desc1Fade = useScrollFadeIn({ delay: 100 });
     const desc2Fade = useScrollFadeIn({ delay: 200 });
     const servicesFade = useScrollFadeIn({ delay: 300 });
-    const imageFade = useScrollFadeIn({ delay: 200, translateY: 80 });
+    const imageFade = useScrollFadeIn<HTMLImageElement>({ delay: 300, translateY: 120, duration: 1200 });
     const decorFade = useScrollFadeIn({ delay: 400 });
 
     return (
@@ -35,21 +56,21 @@ export default function EthosSection() {
                             style={{ ...headingFade.style, fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
                             className="text-[#d4c4b0] font-light uppercase tracking-[0.5em] mb-8"
                         >
-                            {t("ethos.heading")}
+                            {ethosData?.heading ?? t("ethos.heading")}
                         </h2>
                         <p
                             ref={desc1Fade.ref}
                             style={desc1Fade.style}
                             className="text-[#8b7355] leading-relaxed text-lg mb-8"
                         >
-                            {t("ethos.desc1")}
+                            {desc1}
                         </p>
                         <p
                             ref={desc2Fade.ref}
                             style={desc2Fade.style}
                             className="text-[#a89680] leading-relaxed"
                         >
-                            {t("ethos.desc2")}
+                            {desc2}
                         </p>
 
                         {/* Services Grid */}
@@ -58,14 +79,14 @@ export default function EthosSection() {
                             style={servicesFade.style}
                             className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-4"
                         >
-                            {serviceKeys.map((key) => (
+                            {services.map((svc) => (
                                 <a
-                                    key={key}
-                                    href={serviceHrefs[key]}
+                                    key={svc.key}
+                                    href={svc.href}
                                     className="group relative overflow-hidden rounded-sm border border-[#e8e0d8] p-4 transition-all hover:border-[#8b7355] hover:shadow-lg"
                                 >
                                     <span className="text-sm uppercase tracking-[0.15em] text-[#8b7355] group-hover:text-[#6b5340] transition-colors">
-                                        {t(`ethos.services.${key}`)}
+                                        {svc.label || t(`ethos.services.${svc.key}`)}
                                     </span>
                                     <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#d4c4b0] transition-all group-hover:w-full" />
                                 </a>
@@ -74,14 +95,15 @@ export default function EthosSection() {
                     </div>
 
                     {/* Right Column - Image */}
-                    <div ref={imageFade.ref} style={imageFade.style} className="relative">
-                        <div className="aspect-[3/4] overflow-hidden">
+                    <div className="relative">
+                        <div className="aspect-[3/4] h-[70vh] bg-[#d4c4b0] overflow-hidden">
                             <img
-                                src="https://glamorousconcept.com/wp-content/uploads/2024/09/piAeY-1.jpg"
+                                src={imageUrl}
                                 alt="Minimalist room design"
-                                className="w-full h-full object-cover"
+                                className="w-full  h-full object-cover"
+                                ref={imageFade.ref} style={imageFade.style}
                                 onError={(e) => {
-                                    e.currentTarget.src = "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800";
+                                    e.currentTarget.src = FALLBACK_IMAGE;
                                 }}
                             />
                         </div>
@@ -91,10 +113,7 @@ export default function EthosSection() {
                 </div>
             </div>
 
-            {/* Decorative Element */}
-            <div ref={decorFade.ref} style={decorFade.style} className="absolute bottom-12 left-1/2 -translate-x-1/2">
-                <div className="w-px h-16 bg-gradient-to-b from-transparent via-[#d4c4b0] to-transparent" />
-            </div>
+
         </section>
     );
 }

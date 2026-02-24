@@ -3,6 +3,34 @@
 import { useEffect, useRef, useState } from "react";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
 import { useTranslation } from "../i18n/I18nContext";
+import { getInstagramPosts } from "../lib/strapi";
+import type { InstagramPostData } from "../lib/types";
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+
+interface InstaImage {
+    src: string;
+    link: string;
+}
+
+const DEFAULT_IMAGES: InstaImage[] = [
+    { src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800", link: "https://instagram.com" },
+    { src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800", link: "https://instagram.com" },
+    { src: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800", link: "https://instagram.com" },
+    { src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800", link: "https://instagram.com" },
+    { src: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800", link: "https://instagram.com" },
+    { src: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800", link: "https://instagram.com" },
+];
+
+function mapApiToInstaImage(item: InstagramPostData): InstaImage {
+    const src = item.image
+        ? `${STRAPI_URL}${item.image.url}`
+        : "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800";
+    return {
+        src,
+        link: item.link || "https://instagram.com",
+    };
+}
 
 export default function InstagramSection() {
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -10,21 +38,21 @@ export default function InstagramSection() {
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollX, setScrollX] = useState(0);
     const { t } = useTranslation();
+    const [images, setImages] = useState<InstaImage[]>(DEFAULT_IMAGES);
 
     const labelFade = useScrollFadeIn({ delay: 0, translateY: 40 });
     const linkFade = useScrollFadeIn<HTMLAnchorElement>({ delay: 100, translateY: 40 });
     const taglineFade = useScrollFadeIn({ delay: 200, translateY: 40 });
 
-    // Placeholder images - would be replaced with actual Instagram feed
-    const images = [
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
-        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
-        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
-        "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800",
-
-    ];
+    useEffect(() => {
+        getInstagramPosts()
+            .then((res) => {
+                if (res.data && res.data.length > 0) {
+                    setImages(res.data.map(mapApiToInstaImage));
+                }
+            })
+            .catch(() => { /* fallback to hardcoded */ });
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -108,10 +136,10 @@ export default function InstagramSection() {
                             transform: `translateX(-${scrollX}px)`,
                         }}
                     >
-                        {images.map((src, index) => (
+                        {images.map((img, index) => (
                             <a
                                 key={index}
-                                href="https://instagram.com"
+                                href={img.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="relative flex-shrink-0 overflow-hidden group"
@@ -121,7 +149,7 @@ export default function InstagramSection() {
                                 }}
                             >
                                 <img
-                                    src={src}
+                                    src={img.src}
                                     alt={`Instagram post ${index + 1}`}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />

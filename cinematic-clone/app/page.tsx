@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "./i18n/I18nContext";
 import Lenis from "lenis";
-import MenuToggle from "./components/MenuToggle";
+import HeaderBar from "./components/HeaderBar";
 import Nav from "./components/Nav";
 import EthosSection from "./components/EthosSection";
 import DiningSection from "./components/DiningSection";
@@ -26,21 +26,28 @@ export default function CinematicHero() {
   const [showContent, setShowContent] = useState(false);
   const [showLook, setShowLook] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(true);
   const targetPos = useRef({ x: 0, y: 0 });
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorPosRef = useRef({ x: 0, y: 0 });
+  const dotRef = useRef<HTMLDivElement>(null);
+  const dotPosRef = useRef({ x: 0, y: 0 });
 
-  // Smooth cursor lerp animation
+  // Smooth cursor lerp animation — direct DOM manipulation, no React re-renders
   useEffect(() => {
     let animationId: number;
     const lerp = (start: number, end: number, factor: number) =>
       start + (end - start) * factor;
 
     const animate = () => {
-      setCursorPos((prev) => ({
-        x: lerp(prev.x, targetPos.current.x, 0.5),
-        y: lerp(prev.y, targetPos.current.y, 0.5),
-      }));
+      cursorPosRef.current = {
+        x: lerp(cursorPosRef.current.x, targetPos.current.x, 0.5),
+        y: lerp(cursorPosRef.current.y, targetPos.current.y, 0.5),
+      };
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${cursorPosRef.current.x}px`;
+        cursorRef.current.style.top = `${cursorPosRef.current.y}px`;
+      }
       animationId = requestAnimationFrame(animate);
     };
 
@@ -50,6 +57,35 @@ export default function CinematicHero() {
 
     return () => cancelAnimationFrame(animationId);
   }, [isHovering]);
+
+  // Global cursor dot animation — always runs
+  useEffect(() => {
+    let animationId: number;
+    const lerp = (start: number, end: number, factor: number) =>
+      start + (end - start) * factor;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      dotPosRef.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const dotPos = { x: 0, y: 0 };
+    const animate = () => {
+      dotPos.x = lerp(dotPos.x, dotPosRef.current.x, 0.15);
+      dotPos.y = lerp(dotPos.y, dotPosRef.current.y, 0.15);
+      if (dotRef.current) {
+        dotRef.current.style.left = `${dotPos.x}px`;
+        dotRef.current.style.top = `${dotPos.y}px`;
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
   const contentOpacity = Math.min(1, Math.max(0, (scrollProgress - 0.3) * 2));
 
   useEffect(() => {
@@ -60,7 +96,7 @@ export default function CinematicHero() {
     window.scrollTo(0, 0);
 
     const lenis = new Lenis({
-      duration: 1.8,
+      duration: 2.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1,
@@ -77,7 +113,7 @@ export default function CinematicHero() {
     // =========================
     const handleScroll = () => {
       const scrollY = lenis.scroll;
-      const heroTransitionHeight = window.innerHeight * 0.65;
+      const heroTransitionHeight = window.innerHeight * 0.6;
 
       directionRef.current = scrollY > lastScrollRef.current ? "down" : "up";
       lastScrollRef.current = scrollY;
@@ -140,8 +176,8 @@ export default function CinematicHero() {
       isSnapping = true;
 
       lenis.scrollTo(sections[nextIndex], {
-        duration: 1.5,
-        easing: (t) => 1 - Math.pow(1 - t, 4), // easeOutQuart
+        duration: 2.0,
+        easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic — gentler
         onComplete: () => {
           setTimeout(() => {
             isSnapping = false;
@@ -178,11 +214,25 @@ export default function CinematicHero() {
 
   return (
     <div ref={containerRef} className="relative bg-white">
-      {/* ========== MENU TOGGLE BUTTON ========== */}
-      <MenuToggle
-        isOpen={isMenuOpen}
-        onToggle={() => setIsMenuOpen(!isMenuOpen)}
-        className={scrollProgress > 0.5 ? "dark" : ""}
+      {/* Global Cursor Dot — hidden on hero, visible on other sections */}
+      <div
+        ref={dotRef}
+        className="fixed z-[9999] pointer-events-none"
+        style={{
+          left: 0,
+          top: 0,
+          transform: 'translate(-50%, -50%)',
+          opacity: scrollProgress >= 1 ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+        }}
+      >
+        <div className="w-2 h-2 rounded-full bg-[#8b7355]" />
+      </div>
+      {/* ========== HEADER BAR ========== */}
+      <HeaderBar
+        isMenuOpen={isMenuOpen}
+        onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
+        isDark={scrollProgress > 0.5}
       />
 
       {/* ========== NAVIGATION OVERLAY ========== */}
@@ -237,7 +287,7 @@ export default function CinematicHero() {
         onMouseMove={(e) => { targetPos.current = { x: e.clientX, y: e.clientY }; }}
         onMouseEnter={(e) => {
           targetPos.current = { x: e.clientX, y: e.clientY };
-          setCursorPos({ x: e.clientX, y: e.clientY });
+          cursorPosRef.current = { x: e.clientX, y: e.clientY };
           setIsHovering(true);
         }}
         onMouseLeave={() => setIsHovering(false)}
@@ -290,10 +340,11 @@ export default function CinematicHero() {
         {/* Custom Speaker Cursor */}
         {isHovering && heroOpacity > 0.3 && (
           <div
+            ref={cursorRef}
             className="fixed z-50"
             style={{
-              left: cursorPos.x,
-              top: cursorPos.y,
+              left: 0,
+              top: 0,
               transform: "translate(-50%, -50%)",
             }}
           >
@@ -350,10 +401,10 @@ export default function CinematicHero() {
       >
         <div className="px-6 py-24 lg:px-12">
           {/* LOOK BEYOND LIMITS Layout */}
-          <div className="relative">
+          <div className="relative ">
             {/* LOOK - Large Typography */}
             <div
-              className="overflow-hidden"
+              className="overflow-hidden "
               style={{
                 opacity: showLook ? 1 : 0,
                 transform: showLook ? "translateY(0)" : "translateY(60px)",
@@ -363,12 +414,13 @@ export default function CinematicHero() {
               <h2
                 className="font-light uppercase leading-none tracking-wide"
                 style={{
-                  fontSize: "clamp(4rem, 15vw, 12rem)",
+                  fontSize: "13vw",
+                  marginLeft: "8vw",
                   color: "#d4c4b0",
                 }}
               >
                 {t("content.look").split("").map((char, i) => (
-                  <span key={i} className="inline-block" style={{ transitionDelay: `${i * 100}ms` }}>
+                  <span key={i} className="inline-block !font-[300] text-[#EAE6E0] font-[Geometria]" style={{ transitionDelay: `${i * 100}ms` }}>
                     {char}
                   </span>
                 ))}
@@ -377,7 +429,7 @@ export default function CinematicHero() {
 
             {/* BEYOND LIMITS */}
             <div
-              className="mt-[-2rem] ml-[15vw] overflow-hidden"
+              className="top-[calc(50%+2.3vw)] left-[24vw]  text-[2.5vw] absolute overflow-hidden"
               style={{
                 opacity: showLook ? 1 : 0,
                 transform: showLook ? "translateY(0)" : "translateY(40px)",
@@ -393,21 +445,23 @@ export default function CinematicHero() {
                 }}
               >
                 {t("content.beyondLimits").split(" ").map((word, i) => (
-                  <span key={i} className="inline-block mr-1">{word}</span>
+                  <span key={i} className="inline-block !mr-4">{word}</span>
                 ))}
               </p>
             </div>
 
             {/* Video Panel Position Placeholder - The video floats here */}
             <div
-              className="absolute top-0 right-0 w-[40vw] h-[30vh] pointer-events-none"
+              className="absolute top-10 right-20 w-[40vw] h-[30vh] pointer-events-none"
               aria-hidden="true"
-            />
+            >
+              <img src="./images/horizontal.jpg" />
+            </div>
           </div>
 
           {/* Horizontal Image Strip */}
           <div
-            className="mt-16 h-[20vh] w-full overflow-hidden flex"
+            className="mt-16 h-[20vh] !ml-10 w-full overflow-hidden flex"
             style={{
               opacity: showLook ? 1 : 0,
               transform: showLook ? "translateY(0)" : "translateY(60px)",
@@ -417,7 +471,7 @@ export default function CinematicHero() {
             <img
               src="./images/horizontal.jpg"
               alt="Amalfi Coast panorama"
-              className="h-full w-[80%] object-cover"
+              className="h-full  w-[80%] object-cover"
               style={{
                 transform: `translateX(${scrollProgress * -5}vw)`,
                 transition: "transform 0.3s ease",
@@ -455,14 +509,14 @@ export default function CinematicHero() {
             }}
           >
             <h2
-              className="font-light uppercase tracking-[0.05em]"
+              className="font-light uppercase tracking-[0.005em]"
               style={{
                 fontSize: "clamp(2rem, 8vw, 7rem)",
                 color: "#8b7355",
               }}
             >
               {t("content.truePerfection").split(" ").map((word, i) => (
-                <span key={i} className={`inline-block ${i > 0 ? "pl-20" : ""}`}>{word}</span>
+                <span key={i} className={`inline-block ${i > 0 ? "!pl-[3vw]" : ""}`}>{word}</span>
               ))}
             </h2>
           </div>

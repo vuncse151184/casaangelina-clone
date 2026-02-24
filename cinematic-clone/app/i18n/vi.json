@@ -1,15 +1,15 @@
 {
     "hero": {
         "title": "Serenity Resort",
-        "subtitle": "Thánh Địa Địa Trung Hải",
+        "subtitle": "Thiên đường nghỉ dưỡng",
         "scrollDown": "Cuộn xuống",
         "scrollHint": "để bắt đầu trải nghiệm"
     },
     "content": {
-        "look": "KHÁM",
-        "beyondLimits": "PHÁ    GIỚI    HẠN.",
-        "find": "TÌM KIẾM",
-        "truePerfection": "SỰ HOÀN HẢO."
+        "look": "LOOK",
+        "beyondLimits": "BEYOND LIMITS.",
+        "find": "FIND",
+        "truePerfection": "TRUE PERFECTION."
     },
     "ethos": {
         "heading": "t i n h  t h ầ n",
@@ -25,7 +25,7 @@
         }
     },
     "dining": {
-        "heading": "ẩ m  t h ự c",
+        "heading": "t a s t e",
         "description": "Ẩm thực cao cấp phong cách Amalfi. Tại Casa Angelina, hương vị phong phú và nguyên liệu xứ Campania truyền cảm hứng cho từng món ăn.",
         "venues": {
             "unPiano": {
@@ -170,5 +170,17 @@
         "region": "Bờ Biển Amalfi, SA",
         "country": "Ý",
         "copyright": "© Casa Angelina 2026 | bảo lưu mọi quyền"
+    },
+    "blog": {
+        "pageTitle": "Nhật Ký",
+        "subtitle": "Câu Chuyện & Cảm Hứng",
+        "readMore": "Đọc Thêm",
+        "backHome": "Trang Chủ",
+        "backToList": "Tất Cả Bài Viết",
+        "noPosts": "Chưa có câu chuyện nào để chia sẻ.",
+        "errorHint": "Vui lòng đảm bảo Strapi đang chạy và quyền truy cập công khai được bật.",
+        "loading": "Đang tải...",
+        "gallery": "Thư Viện Ảnh",
+        "preview": "Xem Trước"
     }
 }

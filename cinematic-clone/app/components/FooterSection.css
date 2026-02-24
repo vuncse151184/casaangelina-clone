@@ -62,9 +62,16 @@
 
 /* ---- Footer Left (Logo + Info + Copyright) ---- */
 #footerLeft {
-    max-width: 400px;
     transition: transform 0.15s ease-out;
     will-change: transform;
+    /* Glassmorphism effect */
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 #footerLogo {
@@ -149,61 +156,114 @@
 }
 
 /* =============================================
-   FOOTER DATA SECTION (Panel 2)
+   FOOTER DATA SECTION (Panel 2) - Light Cream Theme
    ============================================= */
 
-#footerData {
-    background: #111111;
+/* #footerData {
+    background: #f0ebe4;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 50px 60px;
     position: relative;
     z-index: 10;
+} */
+
+#footerData {
+    position: absolute;
+    background: #f0ebe4;
+    left: 100%;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    flex-direction: column;
+    z-index: 10;
+    display: flex;
+    will-change: transform;
+    padding: 3vw 2.5vw;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* ---- Footer Data Top (Date + Days + Weather) ---- */
 #footerDataTop {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    max-width: 1400px;
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
     width: 100%;
     flex-wrap: wrap;
+    flex-direction: column;
 }
 
 /* Date */
 #date {
-    min-width: 200px;
+    width: 100%;
+    align-items: flex-end;
+    margin-bottom: 1.5vw;
 }
 
 #date .year {
-    color: #a89680;
-    font-size: 12px;
+    color: #8b7355;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    font-weight: 400;
-    margin: 0 0 6px 0;
+    margin: 0;
+    align-self: flex-end;
+    font-family: 'Geometria';
+    font-size: 7vw;
+    font-weight: 300;
 }
 
 #date .day {
-    color: #ffffff;
-    font-size: 14px;
+    color: #5a4a3a;
+    font-size: 54px;
     letter-spacing: 0.05em;
     font-weight: 300;
     margin: 0;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5vw;
+    margin-left: 2.5vw;
+}
+
+#date .ext-day {
+    font-family: 'Geometria';
+    font-size: 1.3vw;
+}
+
+#date .ext-date {
+    font-family: 'Geometria';
+    font-weight: 300;
+    font-size: 2vw;
 }
 
 /* Days */
 #days {
-    margin-top: 10px;
+    padding: 1vw 0;
+    border-top: 1px solid #b9ada4;
+    border-bottom: 1px solid #b9ada4;
+    width: 100%;
+}
+
+
+
+.halfMargin {
+    margin-top: 2.5vw;
+}
+
+.weatherContainer {
+    display: flex;
+    gap: 44px;
 }
 
 #days .weatherContainer {
+    width: calc(100% - 5vw);
+    max-width: 700px;
+    margin: auto;
     display: flex;
-    gap: 4px;
+    align-items: center;
 }
 
 .day_name {
@@ -216,20 +276,19 @@
 }
 
 .day_name p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    position: relative;
+    font-family: 'Geometria';
+    font-size: 16px;
+    text-align: center;
     z-index: 1;
-    margin: 0;
-    transition: color 0.3s ease;
+    position: relative;
+    text-transform: uppercase;
+    will-change: transform;
 }
 
 .day_name .day_back {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(139, 115, 85, 0.12);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 4px;
@@ -242,14 +301,13 @@
 
 .day_name:hover p,
 .day_name.active p {
-    color: #ffffff;
+    color: #5a4a3a;
 }
 
 /* ---- Weather ---- */
 #weather {
-    margin-top: 10px;
-    flex: 1;
-    min-width: 300px;
+    width: 100%;
+    padding: 2vw 2.5vw;
 }
 
 #weatherBox {
@@ -272,24 +330,25 @@
 }
 
 .meteo_ico_big {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 8px;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 12px;
 }
 
 .meteo_ico_big img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: 0.7;
+    filter: none;
+    opacity: 0.65;
 }
 
 .meteo_stats {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
+    color: #6b5a48;
+    font-size: 14px;
+    font-family: 'Geometria';
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    text-transform: lowercase;
     margin: 0;
 }
 
@@ -311,41 +370,44 @@
 .wind_direction img,
 .wind_speed img,
 .wave_height img {
-    width: 18px;
-    height: 18px;
-    filter: brightness(0) invert(1);
-    opacity: 0.5;
+    width: 22px;
+    height: 22px;
+    filter: none;
+    opacity: 0.55;
 }
 
 .meteo_small {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
+    color: #6b5a48;
+    font-size: 14px;
+    font-family: 'Geometria';
     letter-spacing: 0.05em;
     margin: 0;
 }
 
 .temp_text {
-    color: #ffffff;
-    font-size: 28px;
+    color: #5a4a3a;
+    font-size: 3.5vw;
+    font-family: 'Geometria';
     font-weight: 200;
     letter-spacing: 0.02em;
     margin: 0;
 }
 
 .temp_num {
-    font-size: 28px;
+    font-size: 3.5vw;
 }
 
 .temp_deg {
-    font-size: 16px;
+    font-size: 1.5vw;
     vertical-align: super;
     opacity: 0.6;
 }
 
 /* ---- Hourly Box ---- */
 #hourlyBox {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 20px;
+    border-top: 1px solid rgba(139, 115, 85, 0.12);
+    padding: 1.5vw 2.5vw;
+    width: 100%;
 }
 
 .hourly_row .weatherContainer {
@@ -363,6 +425,7 @@
 }
 
 .hour_ico {
+    color: #6E6259;
     width: 28px;
     height: 28px;
     margin: 0 auto 10px;
@@ -372,15 +435,15 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: 0.5;
+    filter: none;
+    opacity: 1;
     transition: all 0.4s ease;
 }
 
 .hour_box .separator {
     width: 1px;
     height: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(139, 115, 85, 0.15);
     margin: 0 auto 8px;
 }
 
@@ -401,7 +464,7 @@
 }
 
 .hour_box .hour_text p {
-    color: rgba(255, 255, 255, 0.4);
+    color: #a89680;
     font-size: 10px;
     letter-spacing: 0.1em;
     margin: 0;
@@ -410,12 +473,12 @@
 
 .hour_box.active .hour_text p,
 .hour_box:hover .hour_text p {
-    color: rgba(255, 255, 255, 0.8);
+    color: #5a4a3a;
 }
 
 .hour_box.active .hour_ico img,
 .hour_box:hover .hour_ico img {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 /* =============================================
@@ -423,12 +486,9 @@
    ============================================= */
 
 #footerDataBottom {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(139, 115, 85, 0.1);
     width: 100%;
 }
 
@@ -442,19 +502,19 @@
 
 .partner {
     height: 30px;
-    opacity: 0.4;
+    opacity: 0.5;
     transition: opacity 0.4s ease;
 }
 
 .partner:hover {
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .partner img {
     height: 100%;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
+    filter: none;
 }
 
 /* =============================================
@@ -466,6 +526,7 @@
         flex-direction: column;
         position: relative;
         padding: 60px 40px;
+
         gap: 40px;
     }
 

@@ -12,6 +12,12 @@ module.exports = ({ env }) => ({
         uploadStream: {},
         delete: {},
       },
+      breakpoints: {
+        large: 0,
+        medium: 0,
+        small: 0,
+      },
+      sizeLimit: 10 * 1024 * 1024, // 10MB
     },
   },
 });

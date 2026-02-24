@@ -78,3 +78,136 @@ export interface StrapiSingleResponse<T> {
     data: T;
     meta: Record<string, unknown>;
 }
+
+// ============ ETHOS (Single Type) ============
+
+export interface EthosService {
+    key: string;
+    label: string;
+    href: string;
+}
+
+export interface Ethos {
+    id: number;
+    documentId: string;
+    heading: string | null;
+    description1: string | null;
+    description2: string | null;
+    services: EthosService[] | null;
+    image: StrapiMedia | null;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
+// ============ DINING VENUE ============
+
+export interface DiningVenueData {
+    id: number;
+    documentId: string;
+    name: string;
+    slug: string;
+    tagline: string | null;
+    image: StrapiMedia | null;
+    href: string | null;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
+// ============ EXPERIENCE ============
+
+export interface ExperienceData {
+    id: number;
+    documentId: string;
+    title: string;
+    subtitle: string | null;
+    description: string | null;
+    image: StrapiMedia | null;
+    href: string | null;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
+// ============ INSTAGRAM POST ============
+
+export interface InstagramPostData {
+    id: number;
+    documentId: string;
+    image: StrapiMedia | null;
+    link: string | null;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
+// ============ BLOG ============
+
+export interface StrapiBlockChild {
+    type: string;
+    text?: string;
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    strikethrough?: boolean;
+    code?: boolean;
+    url?: string;
+    children?: StrapiBlockChild[];
+}
+
+export interface StrapiBlockNode {
+    type: string;
+    children: StrapiBlockChild[];
+    level?: number;
+    format?: string;
+    image?: StrapiMedia;
+}
+
+export interface BlogPost {
+    id: number;
+    documentId: string;
+    title: string;
+    slug: string;
+    excerpt: string | null;
+    content: StrapiBlockNode[] | null;
+    cover: StrapiMedia | null;
+    gallery: StrapiMedia[] | null;
+    blog_status: 'PUBLISHED' | 'DRAFT';
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
+
+// ============ SITE CONFIG (Single Type) ============
+
+export interface SocialLinks {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+}
+
+export interface PartnerData {
+    name: string;
+    src: string;
+    href?: string;
+}
+
+export interface SiteConfig {
+    id: number;
+    documentId: string;
+    footer_image: StrapiMedia | null;
+    address: string | null;
+    phone: string | null;
+    fax: string | null;
+    cin: string | null;
+    copyright: string | null;
+    social_links: SocialLinks | null;
+    partners: PartnerData[] | null;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
