@@ -132,12 +132,12 @@ export default function FooterSection() {
                                 <div id="footerLogo">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 854.56 135.26">
                                         <text
-                                            x="427.28"
+                                            x="360"
                                             y="90"
                                             textAnchor="middle"
                                             fill="#ffffff"
                                             fontFamily="Georgia, serif"
-                                            fontSize="80"
+                                            fontSize="70"
                                             fontWeight="300"
                                             letterSpacing="12"
                                         >

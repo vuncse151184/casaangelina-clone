@@ -46,7 +46,7 @@
 }
 
 .header-dark .hm-line {
-    background: #5a4a3a;
+    background: #fff;
 }
 
 .header-menu-btn.active .hm-line:nth-child(1) {
@@ -69,7 +69,7 @@
 }
 
 .header-dark .header-logo {
-    color: #5a4a3a;
+    color: #fff;
 }
 
 .logo-svg {
@@ -88,7 +88,8 @@
 .lang-btn {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.5);
+    /* color: rgba(255, 255, 255, 0.5); */
+    color: #FFF;
     font-family: 'Geometria', sans-serif;
     font-size: 12px;
     letter-spacing: 0.05em;
@@ -107,7 +108,7 @@
 }
 
 .header-dark .lang-btn {
-    color: rgba(90, 74, 58, 0.4);
+    color: fff;
 }
 
 .header-dark .lang-btn:hover {
@@ -115,7 +116,8 @@
 }
 
 .header-dark .lang-btn.active {
-    color: #5a4a3a;
+    color: #fff;
+    text-decoration: underline;
 }
 
 /* ---- Right Side ---- */
@@ -148,7 +150,7 @@
 }
 
 .header-dark .header-socials a:hover {
-    color: #5a4a3a;
+    color: #fff;
 }
 
 /* ---- Book Now Button ---- */
@@ -178,7 +180,7 @@
 }
 
 .header-dark .header-book-btn {
-    color: #5a4a3a;
+    color: #fff;
     background: rgba(90, 74, 58, 0.08);
     border-color: rgba(90, 74, 58, 0.2);
 }

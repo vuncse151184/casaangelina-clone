@@ -31,7 +31,7 @@ export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen }: 
                 {/* Logo */}
                 <a href="/" className="header-logo">
                     <svg viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg" className="logo-svg">
-                        <text x="0" y="30" fontFamily="'Playfair Display', Georgia, serif" fontStyle="italic" fontSize="28" fontWeight="400" fill="currentColor" letterSpacing="1">
+                        <text x="0" y="30" fontFamily="'Playfair Display', Georgia, serif" fontStyle="italic" fontSize="40" fontWeight="400" fill="currentColor" letterSpacing="1">
                             Casa Angelina
                         </text>
                     </svg>

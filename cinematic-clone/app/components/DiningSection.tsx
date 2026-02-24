@@ -142,7 +142,7 @@ export default function DiningSection() {
     const descFade = useScrollFadeIn({ delay: 100 });
 
     return (
-        <section className="relative min-h-screen bg-[#faf8f5] py-24 px-6 lg:px-16">
+        <section className="relative min-h-screen bg-[#eae6e0] py-24 px-6 lg:px-16">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-16">

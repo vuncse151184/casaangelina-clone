@@ -106,7 +106,7 @@ export default function InstagramSection() {
             {/* Sticky section that stays fixed while scrolling through wrapper */}
             <section
                 ref={stickyRef}
-                className="sticky top-0 h-screen bg-[#faf8f5] overflow-hidden flex flex-col justify-center"
+                className="sticky top-0 h-screen bg-[#eae6e0] overflow-hidden flex flex-col justify-center"
             >
                 {/* Header */}
                 <div className="text-center mb-8 mt-10 px-6">
