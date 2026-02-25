@@ -8,11 +8,11 @@ interface CursorDotProps {
 
 export default function CursorDot({ visible }: CursorDotProps) {
     const dotRef = useRef<HTMLDivElement>(null);
-    const dotPosRef = useRef({ x: 0, y: 0 });
+    const targetRef = useRef({ x: 0, y: 0 });
+    const currentRef = useRef({ x: 0, y: 0 });
     const [isTouchDevice, setIsTouchDevice] = useState(false);
 
     useEffect(() => {
-        // Detect touch-only devices (no hover capability)
         const mq = window.matchMedia("(hover: none)");
         setIsTouchDevice(mq.matches);
         const handler = (e: MediaQueryListEvent) => setIsTouchDevice(e.matches);
@@ -21,52 +21,62 @@ export default function CursorDot({ visible }: CursorDotProps) {
     }, []);
 
     useEffect(() => {
-        if (isTouchDevice) return; // Skip animation on touch devices
+        if (isTouchDevice) return;
 
-        let animationId: number;
-        const lerp = (start: number, end: number, factor: number) =>
-            start + (end - start) * factor;
+        let rafId: number;
 
-        const handleMouseMove = (e: MouseEvent) => {
-            dotPosRef.current = { x: e.clientX, y: e.clientY };
+        const onMove = (e: MouseEvent) => {
+            targetRef.current.x = e.clientX;
+            targetRef.current.y = e.clientY;
         };
-        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mousemove", onMove, { passive: true });
 
-        const dotPos = { x: 0, y: 0 };
         const animate = () => {
-            dotPos.x = lerp(dotPos.x, dotPosRef.current.x, 0.15);
-            dotPos.y = lerp(dotPos.y, dotPosRef.current.y, 0.15);
+            const cur = currentRef.current;
+            const tgt = targetRef.current;
+
+            cur.x += (tgt.x - cur.x) * 0.18;
+            cur.y += (tgt.y - cur.y) * 0.18;
+
             if (dotRef.current) {
-                dotRef.current.style.left = `${dotPos.x}px`;
-                dotRef.current.style.top = `${dotPos.y}px`;
+                dotRef.current.style.transform =
+                    `translate3d(${cur.x}px, ${cur.y}px, 0)`;
             }
-            animationId = requestAnimationFrame(animate);
+            rafId = requestAnimationFrame(animate);
         };
-        animationId = requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
 
         return () => {
-            cancelAnimationFrame(animationId);
-            window.removeEventListener("mousemove", handleMouseMove);
+            cancelAnimationFrame(rafId);
+            window.removeEventListener("mousemove", onMove);
         };
     }, [isTouchDevice]);
 
-    // Don't render on touch devices
     if (isTouchDevice) return null;
 
     return (
         <div
             ref={dotRef}
-            className="fixed z-[9999] pointer-events-none"
             style={{
-                left: 0,
+                position: "fixed",
                 top: 0,
-                transform: 'translate(-50%, -50%)',
+                left: 0,
+                zIndex: 9999,
+                pointerEvents: "none",
+                willChange: "transform",
                 opacity: visible ? 1 : 0,
-                transition: 'opacity 0.3s ease',
+                transition: "opacity 0.3s ease",
             }}
         >
-            <div className="w-2 h-2 rounded-full bg-[#8b7355]" />
+            <div
+                style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: "#8b7355",
+                    transform: "translate(-50%, -50%)",
+                }}
+            />
         </div>
     );
 }
-

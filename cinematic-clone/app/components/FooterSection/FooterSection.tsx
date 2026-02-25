@@ -62,7 +62,7 @@ export default function FooterSection() {
     // Scroll-driven horizontal animation (same pattern as InstagramSection)
     const wrapperRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [scrollX, setScrollX] = useState(0);
+    const footerLeftRef = useRef<HTMLDivElement>(null);
     const [isMobile, setIsMobile] = useState(false);
 
     const partnersFade = useScrollFadeIn({ delay: 400, translateY: 30 });
@@ -90,6 +90,7 @@ export default function FooterSection() {
     const phone = config?.phone ?? "+84 338 010 426";
     const fax = config?.fax ?? " ";
     const cin = config?.cin ?? " ";
+    const EMAIL_ADDRESS = "contact.me.nguyenvudev@gmail.com"
     const copyright = config?.copyright ?? "© CasAngelina 2026 | all rights reserved";
     const footerBg = config?.footer_image
         ? `${STRAPI_URL}${config.footer_image.url}`
@@ -170,11 +171,18 @@ export default function FooterSection() {
             targetX = progress * maxScroll;
         };
 
+        const footerLeft = footerLeftRef.current;
+
         const animate = () => {
             // LERP interpolation
             currentX += (targetX - currentX) * ease;
 
             container.style.transform = `translate3d(-${currentX}px, 0, 0)`;
+
+            // Counter-translate footerLeft so it stays in place
+            if (footerLeft) {
+                footerLeft.style.transform = `translate3d(${currentX}px, 0, 0)`;
+            }
 
             rafId = requestAnimationFrame(animate);
         };
@@ -203,9 +211,6 @@ export default function FooterSection() {
                 <div
                     ref={containerRef}
                     className="footerHorizontalContainer"
-                    style={{
-                        transform: `translateX(-${scrollX}px)`,
-                    }}
                 >
                     {/* ========== PANEL 1: FOOTER MAIN ========== */}
                     <div className="footerPanel" id="footerMain">
@@ -220,7 +225,7 @@ export default function FooterSection() {
                         {/* Content */}
                         <div className="mainContainer">
                             {/* Left Side */}
-                            <div id="footerLeft" style={{ transform: isMobile ? 'none' : `translateX(${scrollX}px)` }}>
+                            <div id="footerLeft" ref={footerLeftRef}>
                                 {/* Logo */}
                                 <div id="footerLogo">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 854.56 135.26">
@@ -243,18 +248,16 @@ export default function FooterSection() {
                                 <div id="footerInfo">
                                     <p>
                                         <a href="https://goo.gl/maps/cc6LjHbEs9wj742H8" target="_blank" rel="noopener noreferrer">
-                                            Villas in Praiano<br />
-                                            80 Hạ Long, Thành phố Vũng Tàu<br />
-                                            Bà Rịa - Vũng Tàu<br />
-                                            VIET NAM
-                                        </a><br />
-                                        ph <a href={`tel:${phone}`}>{phone}</a><br />
+                                            Clone từ casangelina.com bởi Vũ Nguyễn :D <br />
+                                        </a>
+                                        Phone: <a href={`tel:${phone}`}>{phone}</a><br />
+                                        Email: <a href={`mailto:${EMAIL_ADDRESS}`}>{EMAIL_ADDRESS}</a><br />
                                     </p>
                                     {/* Right Side - Social Icons */}
                                     <div id="footerRight">
                                         <div className="socials">
                                             {/* Facebook */}
-                                            <a className="fb" target="_blank" rel="noopener noreferrer" href={social.facebook || "#"}>
+                                            <a className="fb" target="_blank" rel="noopener noreferrer" href={"https://www.facebook.com/vu.nguyen.699111/"}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                     <path fill="#FFFFFF" d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
                                                 </svg>

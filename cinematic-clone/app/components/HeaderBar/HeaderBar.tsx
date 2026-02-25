@@ -8,9 +8,10 @@ interface HeaderBarProps {
     isDark?: boolean;
     onMenuToggle: () => void;
     isMenuOpen: boolean;
+    onBookNow?: () => void;
 }
 
-export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen }: HeaderBarProps) {
+export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen, onBookNow }: HeaderBarProps) {
     const { locale, setLocale } = useTranslation();
 
     return (
@@ -40,16 +41,18 @@ export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen }: 
                 {/* Language Switch */}
                 <div className="header-lang">
                     <button
+                        title="Chuyển sang tiếng anh"
                         className={`lang-btn ${locale === "en" ? "active" : ""}`}
                         onClick={() => setLocale("en" as Locale)}
                     >
-                        En
+                        English
                     </button>
                     <button
+                        title="Change to Vietnamese"
                         className={`lang-btn ${locale === "vi" ? "active" : ""}`}
                         onClick={() => setLocale("vi" as Locale)}
                     >
-                        Vi
+                        Tiếng việt
                     </button>
                 </div>
             </div>
@@ -57,7 +60,7 @@ export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen }: 
             {/* Right side: Socials + Book Now */}
             <div className="header-right">
                 <div className="header-socials">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <a href="https://www.facebook.com/vu.nguyen.699111/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                         </svg>
@@ -70,13 +73,13 @@ export default function HeaderBar({ isDark = false, onMenuToggle, isMenuOpen }: 
                         </svg>
                     </a>
                 </div>
-                <a href="/book" className="header-book-btn">
+                <button className="header-book-btn" onClick={onBookNow}>
                     book now
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="7" y1="17" x2="17" y2="7" />
                         <polyline points="7 7 17 7 17 17" />
                     </svg>
-                </a>
+                </button>
             </div>
         </header>
     );

@@ -14,14 +14,19 @@ import DiningSection from "./components/DiningSection";
 import ExperiencesSection from "./components/ExperiencesSection";
 import InstagramSection from "./components/InstagramSection";
 import FooterSection from "./components/FooterSection";
+import ScrollToTop from "./components/ScrollToTop";
+import BookNowModal from "./components/BookNowModal";
 
 export default function CinematicHero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isBookOpen, setIsBookOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const lastScrollRef = useRef(0);
   const directionRef = useRef<"down" | "up">("down");
+  const lenisRef = useRef<Lenis | null>(null);
+  const isBookOpenRef = useRef(false);
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
@@ -43,6 +48,7 @@ export default function CinematicHero() {
       smoothWheel: true,
       wheelMultiplier: 1,
     });
+    lenisRef.current = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -87,6 +93,9 @@ export default function CinematicHero() {
     const getSections = () => [0, getContentEnd()];
 
     const handleWheel = (e: WheelEvent) => {
+      // Let native scroll work inside the modal
+      if (isBookOpenRef.current) return;
+
       if (isSnapping) {
         e.preventDefault();
         return;
@@ -130,8 +139,20 @@ export default function CinematicHero() {
     return () => {
       window.removeEventListener("wheel", handleWheel);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // Stop/start Lenis when modal opens/closes
+  useEffect(() => {
+    isBookOpenRef.current = isBookOpen;
+    if (!lenisRef.current) return;
+    if (isBookOpen) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [isBookOpen]);
 
   return (
     <div ref={containerRef} className="relative bg-white">
@@ -143,6 +164,7 @@ export default function CinematicHero() {
         isMenuOpen={isMenuOpen}
         onMenuToggle={() => setIsMenuOpen(!isMenuOpen)}
         isDark={scrollProgress > 0.5}
+        onBookNow={() => setIsBookOpen(true)}
       />
 
       {/* Navigation Overlay */}
@@ -186,6 +208,12 @@ export default function CinematicHero() {
 
       {/* Footer */}
       <FooterSection />
+
+      {/* Scroll to Top */}
+      <ScrollToTop />
+
+      {/* Book Now Modal */}
+      <BookNowModal isOpen={isBookOpen} onClose={() => setIsBookOpen(false)} />
     </div>
   );
 }

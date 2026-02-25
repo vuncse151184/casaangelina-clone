@@ -6,8 +6,8 @@ const CACHE_KEY = 'weather_data';
 const CACHE_TTL = 7200; // 2 hours in seconds
 
 // Praiano, Italy (Casa Angelina location)
-const LAT = 40.6131;
-const LON = 14.7217;
+const LAT = 10.34599;
+const LON = 107.08426;
 
 let redis;
 

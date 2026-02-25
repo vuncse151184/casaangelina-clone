@@ -182,5 +182,26 @@
         "loading": "Loading...",
         "gallery": "Gallery",
         "preview": "Preview"
+    },
+    "booking": {
+        "title": "Book Your Stay",
+        "content": "Experience the heaven of Vung Tau Coast with Casa Angelina.",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phone": "Phone",
+        "message": "Message",
+        "submit": "Request Booking",
+        "checkIn": "Check In",
+        "checkOut": "Check Out",
+        "rooms": "Rooms",
+        "roomType": "Room Type",
+        "addRoom": "Add Room",
+        "confirmBookingMsg": "Your booking request has been received. We will contact you shortly.",
+        "guests": "Guests",
+        "children": "Children",
+        "adults": "Adult",
+        "promoCode": "Promo Code",
+        "bookNow": "Book Now",
+        "bookNowHint": "Please ensure Strapi is running and public access is enabled."
     }
 }

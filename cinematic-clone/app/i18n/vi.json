@@ -182,5 +182,25 @@
         "loading": "Đang tải...",
         "gallery": "Thư Viện Ảnh",
         "preview": "Xem Trước"
+    },
+    "booking": {
+        "title": "Book Your Stay",
+        "content": "Tận hưởng những khoảnh khắc tuyệt vời tại Casa Angelina.",
+        "fullName": "Họ & tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "message": "Ghi chú",
+        "submit": "Đồng ý",
+        "checkIn": "Nhận phòng",
+        "checkOut": "Trả phòng",
+        "rooms": "Phòng",
+        "roomType": "Chọn phòng",
+        "addRoom": "Thêm phòng",
+        "confirmBookingMsg": "Đặt phòng thành công. Chúng tôi sẽ liên hệ với bạn sớm nhất.",
+        "guests": "Số người",
+        "children": "Trẻ em",
+        "adults": "Người lớn",
+        "bookNow": "Đặt phòng",
+        "bookNowHint": "Please ensure Strapi is running and public access is enabled."
     }
 }
