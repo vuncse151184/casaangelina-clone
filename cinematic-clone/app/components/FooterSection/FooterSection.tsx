@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import { useTranslation } from "../i18n/I18nContext";
-import { getSiteConfig } from "../lib/strapi";
-import type { SiteConfig, PartnerData } from "../lib/types";
+import useScrollFadeIn from "../../hooks/useScrollFadeIn";
+import { useTranslation } from "../../i18n/I18nContext";
+import { getSiteConfig, getWeather } from "../../lib/strapi";
+import type { SiteConfig, PartnerData, WeatherData } from "../../lib/types";
 import "./FooterSection.css";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
@@ -24,11 +24,40 @@ const DEFAULT_SOCIAL = {
     twitter: "https://twitter.com/Casangelina",
 };
 
+/** Convert wind degrees to a compass direction string */
+function getWindDirection(deg: number): string {
+    const dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+        "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return dirs[Math.round(deg / 22.5) % 16];
+}
+
+/** Classify wind speed (m/s) into a human-readable label */
+function getWindLabel(speed: number): string {
+    if (speed < 1.5) return "calm";
+    if (speed < 3.4) return "weak";
+    if (speed < 5.5) return "gentle";
+    if (speed < 8) return "moderate";
+    if (speed < 10.8) return "fresh";
+    return "strong";
+}
+
+/** Get ordinal suffix for a day number */
+function getOrdinalSuffix(day: number): string {
+    if (day >= 11 && day <= 13) return "th";
+    switch (day % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+    }
+}
+
 export default function FooterSection() {
     const { t } = useTranslation();
     const [activeDay, setActiveDay] = useState(0);
     const [activeHour, setActiveHour] = useState(5);
     const [config, setConfig] = useState<SiteConfig | null>(null);
+    const [weather, setWeather] = useState<WeatherData | null>(null);
 
     // Scroll-driven horizontal animation (same pattern as InstagramSection)
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -41,6 +70,10 @@ export default function FooterSection() {
         getSiteConfig()
             .then((res) => setConfig(res.data))
             .catch(() => { /* fallback to hardcoded */ });
+
+        getWeather()
+            .then((res) => setWeather(res.data))
+            .catch(() => { /* fallback to defaults */ });
     }, []);
 
     const partners = config?.partners ?? DEFAULT_PARTNERS;
@@ -53,7 +86,35 @@ export default function FooterSection() {
         ? `${STRAPI_URL}${config.footer_image.url}`
         : "https://www.casangelina.com/wp-content/themes/casangelina/assets/images/home/footer.jpg";
 
-    const days = ["Today", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon"];
+    // Dynamic date
+    const now = new Date();
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+    const currentDayName = dayNames[now.getDay()];
+    const currentDate = now.getDate();
+    const currentMonth = monthNames[now.getMonth()];
+    const currentYear = now.getFullYear();
+
+    // Build days of week starting from today
+    const days = ["Today"];
+    for (let i = 1; i <= 6; i++) {
+        const future = new Date(now);
+        future.setDate(now.getDate() + i);
+        days.push(dayNames[future.getDay()].slice(0, 3));
+    }
+
+    // Weather-derived values (with fallbacks)
+    const temperature = weather ? Math.round(weather.temperature.current) : 12;
+    const weatherDesc = weather?.weather.description ?? "weak rain";
+    const weatherIconUrl = weather?.weather.iconUrl
+        ?? "https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/9.png";
+    const windSpeed = weather?.wind.speed ?? 2.7;
+    const windDeg = weather?.wind.deg ?? 225;
+    const windDir = getWindDirection(windDeg);
+    const windLabel = getWindLabel(windSpeed);
+    const humidity = weather?.humidity ?? 72;
+
     const hours = [
         { time: "00:00", icon: "n1" },
         { time: "03:00", icon: "4" },
@@ -66,45 +127,68 @@ export default function FooterSection() {
     ];
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (!wrapperRef.current || !containerRef.current) return;
+        if (!wrapperRef.current || !containerRef.current) return;
 
-            const wrapper = wrapperRef.current;
+        const wrapper = wrapperRef.current;
+        const container = containerRef.current;
+
+        let currentX = 0;      // current animated value
+        let targetX = 0;       // target based on scroll
+        let rafId: number;
+
+        const ease = 0.08;     // smaller = smoother (0.05–0.12 sweet spot)
+
+        const updateTarget = () => {
             const rect = wrapper.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
             const scrollableDistance = wrapper.offsetHeight - windowHeight;
             const scrolledAmount = -rect.top;
 
-            if (scrolledAmount >= 0 && scrolledAmount <= scrollableDistance) {
-                const scrollProgress = scrolledAmount / scrollableDistance;
-
-                const containerWidth = containerRef.current.scrollWidth;
-                const visibleWidth = window.innerWidth;
-                const maxScroll = Math.max(0, containerWidth - visibleWidth);
-
-                setScrollX(scrollProgress * maxScroll);
-            } else if (scrolledAmount < 0) {
-                setScrollX(0);
-            } else if (scrolledAmount > scrollableDistance) {
-                const containerWidth = containerRef.current.scrollWidth;
-                const visibleWidth = window.innerWidth;
-                setScrollX(Math.max(0, containerWidth - visibleWidth));
+            if (scrolledAmount <= 0) {
+                targetX = 0;
+                return;
             }
+
+            if (scrolledAmount >= scrollableDistance) {
+                targetX = container.scrollWidth - window.innerWidth;
+                return;
+            }
+
+            const progress = scrolledAmount / scrollableDistance;
+            const maxScroll = container.scrollWidth - window.innerWidth;
+
+            targetX = progress * maxScroll;
         };
+
+        const animate = () => {
+            // LERP interpolation
+            currentX += (targetX - currentX) * ease;
+
+            container.style.transform = `translate3d(-${currentX}px, 0, 0)`;
+
+            rafId = requestAnimationFrame(animate);
+        };
+
+        const handleScroll = () => {
+            updateTarget();
+        };
+
+        // Start loop
+        animate();
 
         window.addEventListener("scroll", handleScroll, { passive: true });
         window.addEventListener("resize", handleScroll, { passive: true });
-        handleScroll();
 
         return () => {
+            cancelAnimationFrame(rafId);
             window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", handleScroll);
         };
     }, []);
 
     return (
-        <div ref={wrapperRef} className="relative" style={{ height: '300vh' }}>
+        <div ref={wrapperRef} className="relative" style={{ height: '150vh' }}>
             <div id="footerSticky">
                 {/* Horizontal scroll container */}
                 <div
@@ -195,12 +279,12 @@ export default function FooterSection() {
                     {/* ========== PANEL 2: FOOTER DATA ========== */}
                     <div className="footerPanel !w-[50vw]" id="footerData">
                         <div id="footerDataTop">
-                            {/* Date */}
+                            {/* Date — now dynamic */}
                             <div id="date" className="weatherContainer">
-                                <h4 className="year">2026</h4>
+                                <h4 className="year">{currentYear}</h4>
                                 <h4 className="day">
-                                    <span className="ext-day">Tuesday</span>
-                                    <span className="ext-date">10th February</span>
+                                    <span className="ext-day">{currentDayName}</span>
+                                    <span className="ext-date">{currentDate}{getOrdinalSuffix(currentDate)} {currentMonth}</span>
                                 </h4>
                             </div>
 
@@ -220,7 +304,7 @@ export default function FooterSection() {
                                 </div>
                             </div>
 
-                            {/* Weather */}
+                            {/* Weather — now from API */}
                             <div id="weather" className="halfMargin">
                                 <div id="weatherBox">
                                     {/* Weather Icons Row */}
@@ -230,13 +314,13 @@ export default function FooterSection() {
                                                 <div className="meteo_ico_big">
                                                     <img alt="Wind" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/wind/2.png" />
                                                 </div>
-                                                <p className="meteo_stats">weak</p>
+                                                <p className="meteo_stats">{windLabel}</p>
                                             </div>
                                             <div className="weather_ico meteo_col">
                                                 <div className="meteo_ico_big">
-                                                    <img alt="Weather" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/9.png" />
+                                                    <img alt="Weather" src={weatherIconUrl} />
                                                 </div>
-                                                <p className="meteo_stats">weak rain</p>
+                                                <p className="meteo_stats">{weatherDesc}</p>
                                             </div>
                                             <div className="sea_ico meteo_col">
                                                 <div className="meteo_ico_big">
@@ -253,23 +337,23 @@ export default function FooterSection() {
                                             <div className="data meteo_col">
                                                 <div className="wind_direction">
                                                     <img alt="Wind direction" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/wind_dir.png" />
-                                                    <p className="meteo_small">SW</p>
+                                                    <p className="meteo_small">{windDir}</p>
                                                 </div>
                                                 <div className="wind_speed">
                                                     <img alt="Wind speed" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/wind_speed.png" />
-                                                    <p className="meteo_small">2.7 m/s</p>
+                                                    <p className="meteo_small">{windSpeed.toFixed(1)} m/s</p>
                                                 </div>
                                             </div>
                                             <div className="data meteo_col">
                                                 <p className="temp_text">
-                                                    <span className="temp_num">12</span>{" "}
+                                                    <span className="temp_num">{temperature}</span>{" "}
                                                     <span className="temp_deg">°</span>
                                                 </p>
                                             </div>
                                             <div className="data meteo_col">
                                                 <div className="wave_height">
-                                                    <img alt="Wave height" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/wave_height.png" />
-                                                    <p className="meteo_small">0.951 M</p>
+                                                    <img alt="Humidity" src="https://www.casangelina.com/wp-content/themes/casangelina/assets/images/weather/wave_height.png" />
+                                                    <p className="meteo_small">{humidity}%</p>
                                                 </div>
                                             </div>
                                         </div>

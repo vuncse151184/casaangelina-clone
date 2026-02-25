@@ -305,4 +305,41 @@
     .nav-item {
         font-size: 1rem;
     }
+
+    .nav-bottom {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+
+    .nav-close {
+        top: 14px;
+        right: 14px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-inner {
+        padding: 70px 16px 16px;
+    }
+
+    .nav-scroller {
+        gap: 20px;
+    }
+
+    .nav-section-title {
+        font-size: 0.6rem;
+        margin-bottom: 12px;
+    }
+
+    .nav-item {
+        font-size: 0.9rem;
+    }
+
+    .nav-section-items {
+        gap: 8px;
+    }
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslation } from "../i18n/I18nContext";
-import type { Locale } from "../i18n/I18nContext";
+import { useTranslation } from "../../i18n/I18nContext";
+import type { Locale } from "../../i18n/I18nContext";
 import "./HeaderBar.css";
 
 interface HeaderBarProps {

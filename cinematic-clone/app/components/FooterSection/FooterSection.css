@@ -64,7 +64,6 @@
 #footerLeft {
     transition: transform 0.15s ease-out;
     will-change: transform;
-    /* Glassmorphism effect */
     padding: 40px 36px;
 }
 
@@ -272,6 +271,7 @@
 .day_name p {
     font-family: 'Geometria';
     font-size: 16px;
+    color: #5a4a3a;
     text-align: center;
     z-index: 1;
     position: relative;
@@ -334,7 +334,6 @@
     height: 100%;
     object-fit: contain;
     filter: none;
-    opacity: 0.65;
 }
 
 .meteo_stats {
@@ -367,7 +366,6 @@
     width: 22px;
     height: 22px;
     filter: none;
-    opacity: 0.55;
 }
 
 .meteo_small {
@@ -394,7 +392,6 @@
 .temp_deg {
     font-size: 1.5vw;
     vertical-align: super;
-    opacity: 0.6;
 }
 
 /* ---- Hourly Box ---- */
@@ -496,7 +493,6 @@
 
 .partner {
     height: 30px;
-    opacity: 0.5;
     transition: opacity 0.4s ease;
 }
 
@@ -570,5 +566,88 @@
 
     .partner {
         height: 22px;
+    }
+
+    #footerInfo p {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .socials a {
+        width: 36px;
+        height: 36px;
+    }
+
+    .socials a svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .weatherContainer {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #footerMain .mainContainer {
+        padding: 24px 16px;
+    }
+
+    #footerData {
+        padding: 20px 16px;
+    }
+
+    #footerLogo {
+        width: 160px;
+        margin-bottom: 20px;
+    }
+
+    #footerLeft {
+        padding: 20px 16px;
+    }
+
+    #footerInfo p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    #copyright p {
+        font-size: 9px;
+    }
+
+    .meteo_ico_big {
+        width: 40px;
+        height: 40px;
+    }
+
+    .meteo_stats,
+    .meteo_small {
+        font-size: 11px;
+    }
+
+    .hour_ico {
+        width: 22px;
+        height: 22px;
+    }
+
+    .hour_box .hour_text p {
+        font-size: 8px;
+    }
+
+    #footerDataBottom .weatherContainer {
+        gap: 16px;
+    }
+
+    .partner {
+        height: 18px;
+    }
+
+    .socials {
+        gap: 12px;
+    }
+
+    .socials a {
+        width: 32px;
+        height: 32px;
     }
 }

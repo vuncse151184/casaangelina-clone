@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import { useTranslation } from "../i18n/I18nContext";
-import { getExperiences } from "../lib/strapi";
-import type { ExperienceData } from "../lib/types";
+import useScrollFadeIn from "../../hooks/useScrollFadeIn";
+import { useTranslation } from "../../i18n/I18nContext";
+import { getExperiences } from "../../lib/strapi";
+import type { ExperienceData } from "../../lib/types";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
@@ -72,7 +72,7 @@ function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
 
     return (
         <div
-            className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+            className={`grid lg:grid-cols-2 gap-6 md:gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
                 }`}
         >
             {/* Image */}
@@ -114,7 +114,7 @@ function ExperienceBlock({ exp, index }: { exp: Experience; index: number }) {
                 >
                     {exp.title}
                 </h3>
-                <p className="text-[#a89680] leading-relaxed mb-8 max-w-md">
+                <p className="text-[#a89680] leading-relaxed mb-6 md:mb-8 max-w-md text-sm md:text-base">
                     {exp.description}
                 </p>
                 <a
@@ -159,10 +159,10 @@ export default function ExperiencesSection() {
     const dividerFade = useScrollFadeIn({ delay: 100 });
 
     return (
-        <section className="relative min-h-screen bg-white py-24 px-6 lg:px-16 overflow-hidden">
+        <section className="relative min-h-screen bg-white py-12 md:py-24 px-4 md:px-6 lg:px-16 overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-20">
+                <div className="text-center mb-10 md:mb-20">
                     <h2
                         ref={headingFade.ref}
                         style={{ ...headingFade.style, fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
@@ -174,7 +174,7 @@ export default function ExperiencesSection() {
                 </div>
 
                 {/* Experiences Grid - Alternating Layout */}
-                <div className="space-y-24">
+                <div className="space-y-12 md:space-y-24">
                     {experiences.map((exp, index) => (
                         <ExperienceBlock key={exp.key} exp={exp} index={index} />
                     ))}

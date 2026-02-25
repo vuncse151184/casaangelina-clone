@@ -7,6 +7,7 @@ import type {
     InstagramPostData,
     BlogPost,
     SiteConfig,
+    WeatherData,
     StrapiResponse,
     StrapiSingleResponse
 } from './types';
@@ -199,4 +200,13 @@ export async function getBlogByDocumentId(
  */
 export async function getSiteConfig(populate = '*'): Promise<StrapiSingleResponse<SiteConfig>> {
     return fetchStrapi<StrapiSingleResponse<SiteConfig>>(`/site-config?populate=${populate}`);
+}
+
+// ============ WEATHER ============
+
+/**
+ * Get cached weather data (refreshed every 2 hours on the server)
+ */
+export async function getWeather(): Promise<{ data: WeatherData }> {
+    return fetchStrapi<{ data: WeatherData }>('/weather');
 }

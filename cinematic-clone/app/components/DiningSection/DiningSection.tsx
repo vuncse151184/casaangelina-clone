@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import { useTranslation } from "../i18n/I18nContext";
-import { getDiningVenues } from "../lib/strapi";
-import type { DiningVenueData } from "../lib/types";
+import useScrollFadeIn from "../../hooks/useScrollFadeIn";
+import { useTranslation } from "../../i18n/I18nContext";
+import { getDiningVenues } from "../../lib/strapi";
+import type { DiningVenueData } from "../../lib/types";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
@@ -95,7 +95,7 @@ function DiningCard({ venue, index }: { venue: DiningVenue; index: number }) {
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-4 md:p-6">
                 <h3 className="text-[#8b7355] font-light text-lg uppercase tracking-[0.1em] mb-2 group-hover:text-[#6b5340] transition-colors duration-300">
                     {venue.name}
                 </h3>
@@ -142,10 +142,10 @@ export default function DiningSection() {
     const descFade = useScrollFadeIn({ delay: 100 });
 
     return (
-        <section className="relative min-h-screen bg-[#eae6e0] py-24 px-6 lg:px-16">
+        <section className="relative min-h-screen bg-[#eae6e0] py-12 md:py-24 px-4 md:px-6 lg:px-16">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center mb-8 md:mb-16">
                     <h2
                         ref={headingFade.ref}
                         style={{ ...headingFade.style, fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
@@ -159,7 +159,7 @@ export default function DiningSection() {
                 </div>
 
                 {/* Dining Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {venues.map((venue, index) => (
                         <DiningCard key={venue.key} venue={venue} index={index} />
                     ))}

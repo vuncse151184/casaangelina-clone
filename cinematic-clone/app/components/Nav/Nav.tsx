@@ -2,7 +2,7 @@
 
 import "./Nav.css";
 
-import { useTranslation, Locale } from "../i18n/I18nContext";
+import { useTranslation, Locale } from "../../i18n/I18nContext";
 
 interface NavItem {
     key: string;
@@ -78,16 +78,7 @@ export default function Nav({ isOpen, onClose }: NavProps) {
             {/* Dark Overlay */}
             <div className="nav-background" />
 
-            {/* Close Button */}
-            <button className="nav-close" onClick={onClose} aria-label="Close menu">
-                <svg className="nav-close-circle" viewBox="0 0 38 38">
-                    <circle cx="19" cy="19" r="18" strokeWidth="1.3" fill="transparent" />
-                </svg>
-                <div className="nav-close-icon">
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
+
 
             {/* Navigation Content */}
             <div className="nav-inner">

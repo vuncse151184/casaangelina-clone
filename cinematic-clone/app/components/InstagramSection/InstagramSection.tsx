@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import { useTranslation } from "../i18n/I18nContext";
-import { getInstagramPosts } from "../lib/strapi";
-import type { InstagramPostData } from "../lib/types";
+import useScrollFadeIn from "../../hooks/useScrollFadeIn";
+import { useTranslation } from "../../i18n/I18nContext";
+import { getInstagramPosts } from "../../lib/strapi";
+import type { InstagramPostData } from "../../lib/types";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
@@ -109,8 +109,8 @@ export default function InstagramSection() {
                 className="sticky top-0 h-screen bg-[#eae6e0] overflow-hidden flex flex-col justify-center"
             >
                 {/* Header */}
-                <div className="text-center mb-8 mt-10 px-6">
-                    <p ref={labelFade.ref} style={labelFade.style} className="text-[#d4c4b0] uppercase tracking-[0.5em] text-sm mb-2">
+                <div className="text-center mb-4 md:mb-8 mt-6 md:mt-10 px-4 md:px-6">
+                    <p ref={labelFade.ref} style={labelFade.style} className="text-[#d4c4b0] uppercase tracking-[0.3em] md:tracking-[0.5em] text-xs md:text-sm mb-2">
                         {t("instagram.label")}
 
                     </p>
@@ -120,18 +120,18 @@ export default function InstagramSection() {
                         href="https://instagram.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block text-[#8b7355] uppercase tracking-[0.2em] text-xl hover:text-[#6b5340] transition-colors"
+                        className="block text-[#8b7355] uppercase tracking-[0.15em] md:tracking-[0.2em] text-base md:text-xl hover:text-[#6b5340] transition-colors"
                     >
                         @CASANGELINA
                     </a>
-                    <p ref={taglineFade.ref} style={taglineFade.style} className="text-[#a89680] mt-3 italic text-lg">{t("instagram.tagline")}</p>
+                    <p ref={taglineFade.ref} style={taglineFade.style} className="text-[#a89680] mt-2 md:mt-3 italic text-base md:text-lg">{t("instagram.tagline")}</p>
                 </div>
 
                 {/* Instagram Horizontal Scroll */}
                 <div className="relative w-full flex-1 flex items-center">
                     <div
                         ref={containerRef}
-                        className="flex gap-6 px-8 transition-transform duration-150 ease-out"
+                        className="flex gap-3 md:gap-6 px-4 md:px-8 transition-transform duration-150 ease-out"
                         style={{
                             transform: `translateX(-${scrollX}px)`,
                         }}
@@ -144,8 +144,8 @@ export default function InstagramSection() {
                                 rel="noopener noreferrer"
                                 className="relative flex-shrink-0 overflow-hidden group"
                                 style={{
-                                    width: 'calc(60vh * 16 / 9)',
-                                    height: '60vh'
+                                    width: 'clamp(200px, calc(60vh * 16 / 9), 800px)',
+                                    height: 'clamp(150px, 60vh, 500px)'
                                 }}
                             >
                                 <img

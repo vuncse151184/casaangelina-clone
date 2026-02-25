@@ -211,3 +211,36 @@ export interface SiteConfig {
     updatedAt: string;
     publishedAt: string;
 }
+
+// ============ WEATHER ============
+
+export interface WeatherData {
+    location: {
+        name: string;
+        country: string;
+        lat: number;
+        lon: number;
+    };
+    temperature: {
+        current: number;
+        feelsLike: number;
+        min: number;
+        max: number;
+        unit: string;
+    };
+    weather: {
+        main: string;
+        description: string;
+        icon: string;
+        iconUrl: string;
+    };
+    wind: {
+        speed: number;
+        deg: number;
+        unit: string;
+    };
+    humidity: number;
+    visibility: number;
+    clouds: number;
+    fetchedAt: string;
+}
