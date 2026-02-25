@@ -63,8 +63,17 @@ export default function FooterSection() {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [scrollX, setScrollX] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
 
     const partnersFade = useScrollFadeIn({ delay: 400, translateY: 30 });
+
+    // Detect mobile for disabling horizontal scroll
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     useEffect(() => {
         getSiteConfig()
@@ -127,7 +136,7 @@ export default function FooterSection() {
     ];
 
     useEffect(() => {
-        if (!wrapperRef.current || !containerRef.current) return;
+        if (!wrapperRef.current || !containerRef.current || isMobile) return;
 
         const wrapper = wrapperRef.current;
         const container = containerRef.current;
@@ -185,10 +194,10 @@ export default function FooterSection() {
             window.removeEventListener("scroll", handleScroll);
             window.removeEventListener("resize", handleScroll);
         };
-    }, []);
+    }, [isMobile]);
 
     return (
-        <div ref={wrapperRef} className="relative" style={{ height: '150vh' }}>
+        <div ref={wrapperRef} className="relative" style={{ height: isMobile ? 'auto' : '150vh' }}>
             <div id="footerSticky">
                 {/* Horizontal scroll container */}
                 <div
@@ -211,7 +220,7 @@ export default function FooterSection() {
                         {/* Content */}
                         <div className="mainContainer">
                             {/* Left Side */}
-                            <div id="footerLeft" style={{ transform: `translateX(${scrollX}px)` }}>
+                            <div id="footerLeft" style={{ transform: isMobile ? 'none' : `translateX(${scrollX}px)` }}>
                                 {/* Logo */}
                                 <div id="footerLogo">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 854.56 135.26">
@@ -277,7 +286,7 @@ export default function FooterSection() {
                     </div>
 
                     {/* ========== PANEL 2: FOOTER DATA ========== */}
-                    <div className="footerPanel !w-[50vw]" id="footerData">
+                    <div className={`footerPanel ${isMobile ? '' : '!w-[50vw]'}`} id="footerData">
                         <div id="footerDataTop">
                             {/* Date — now dynamic */}
                             <div id="date" className="weatherContainer">

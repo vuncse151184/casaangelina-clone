@@ -33,14 +33,7 @@ export default function ContentSection({
                 {/* LOOK BEYOND LIMITS Layout */}
                 <div className="relative ">
                     {/* LOOK + BEYOND LIMITS wrapper */}
-                    <div
-                        className="overflow-visible"
-                        style={{
-                            opacity: showLook ? 1 : 0,
-                            transform: showLook ? "translateY(0)" : "translateY(60px)",
-                            transition: "opacity 1s ease, transform 1s ease",
-                        }}
-                    >
+                    <div className="overflow-visible">
                         {/* Inline-block so its width matches the "LOOK" text exactly */}
                         <div
                             className="inline-block relative"
@@ -56,7 +49,16 @@ export default function ContentSection({
                                 }}
                             >
                                 {t("content.look").split("").map((char, i) => (
-                                    <span key={i} className="inline-block !font-[300] text-[#EAE6E0] font-[Geometria]" style={{ transitionDelay: `${i * 100}ms` }}>
+                                    <span
+                                        key={i}
+                                        className="inline-block !font-[300] text-[#EAE6E0] font-[Geometria]"
+                                        style={{
+                                            opacity: showLook ? 1 : 0,
+                                            transform: showLook ? "translateY(0)" : "translateY(80px)",
+                                            transition: "opacity 0.8s ease, transform 0.8s ease",
+                                            transitionDelay: `${i * 400}ms`,
+                                        }}
+                                    >
                                         {char}
                                     </span>
                                 ))}
@@ -90,7 +92,7 @@ export default function ContentSection({
 
                     {/* Video Panel Position Placeholder */}
                     <div
-                        className="absolute top-10 right-4 md:right-20 w-[60vw] md:w-[40vw] h-[20vh] md:h-[30vh] pointer-events-none"
+                        className="absolute top-10 right-4 md:right-20 w-[60vw] md:w-[36vw] h-[20vh] md:h-[30vh] pointer-events-none"
                         aria-hidden="true"
                     >
                         <img src="./images/horizontal.jpg" />

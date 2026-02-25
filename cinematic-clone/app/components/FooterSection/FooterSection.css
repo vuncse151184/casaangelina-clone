@@ -173,10 +173,11 @@
     z-index: 10;
     display: flex;
     will-change: transform;
-    padding: 3vw 2.5vw;
+    padding: 3% 5%;
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
+    container-type: inline-size;
 }
 
 /* ---- Footer Data Top (Date + Days + Weather) ---- */
@@ -194,7 +195,7 @@
 #date {
     width: 100%;
     align-items: flex-end;
-    margin-bottom: 1.5vw;
+    margin-bottom: 3%;
 }
 
 #date .year {
@@ -204,37 +205,37 @@
     margin: 0;
     align-self: flex-end;
     font-family: 'Geometria';
-    font-size: 7vw;
+    font-size: clamp(40px, 14cqi, 100px);
     font-weight: 300;
 }
 
 #date .day {
     color: #5a4a3a;
-    font-size: 54px;
+    font-size: clamp(28px, 8cqi, 54px);
     letter-spacing: 0.05em;
     font-weight: 300;
     margin: 0;
     align-self: flex-end;
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.5vw;
-    margin-left: 2.5vw;
+    margin-bottom: 3%;
+    margin-left: 5%;
 }
 
 #date .ext-day {
     font-family: 'Geometria';
-    font-size: 1.3vw;
+    font-size: clamp(10px, 2.5cqi, 18px);
 }
 
 #date .ext-date {
     font-family: 'Geometria';
     font-weight: 300;
-    font-size: 2vw;
+    font-size: clamp(12px, 3.5cqi, 28px);
 }
 
 /* Days */
 #days {
-    padding: 1vw 0;
+    padding: 2% 0;
     border-top: 1px solid #b9ada4;
     border-bottom: 1px solid #b9ada4;
     width: 100%;
@@ -243,7 +244,7 @@
 
 
 .halfMargin {
-    margin-top: 2.5vw;
+    margin-top: 5%;
 }
 
 .weatherContainer {
@@ -301,7 +302,7 @@
 /* ---- Weather ---- */
 #weather {
     width: 100%;
-    padding: 2vw 2.5vw;
+    padding: 4% 5%;
 }
 
 #weatherBox {
@@ -378,7 +379,7 @@
 
 .temp_text {
     color: #5a4a3a;
-    font-size: 3.5vw;
+    font-size: clamp(24px, 7cqi, 50px);
     font-family: 'Geometria';
     font-weight: 200;
     letter-spacing: 0.02em;
@@ -386,18 +387,18 @@
 }
 
 .temp_num {
-    font-size: 3.5vw;
+    font-size: clamp(24px, 7cqi, 50px);
 }
 
 .temp_deg {
-    font-size: 1.5vw;
+    font-size: clamp(12px, 3cqi, 22px);
     vertical-align: super;
 }
 
 /* ---- Hourly Box ---- */
 #hourlyBox {
     border-top: 1px solid rgba(139, 115, 85, 0.12);
-    padding: 1.5vw 2.5vw;
+    padding: 3% 5%;
     width: 100%;
 }
 
@@ -538,34 +539,44 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Disable horizontal scroll — stack vertically */
+    #footerSticky {
+        position: relative;
+        height: auto;
+        overflow: visible;
+    }
+
+    .footerHorizontalContainer {
+        flex-direction: column;
+        height: auto;
+        transform: none !important;
+    }
+
+    .footerPanel {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+
+    /* Footer Main */
+    #footerMain {
+        min-height: 60vh;
+        justify-content: flex-end;
+        padding-bottom: 40px;
+    }
+
     #footerMain .mainContainer {
         padding: 40px 24px;
     }
 
-    #footerData {
-        padding: 30px 24px;
+    #footerLeft {
+        padding: 20px 0;
     }
 
     #footerLogo {
         width: 200px;
-    }
-
-    .hourly_row .weatherContainer {
-        flex-wrap: wrap;
-        gap: 0;
-    }
-
-    .hour_box {
-        width: 25%;
-        flex: none;
-    }
-
-    #footerDataBottom .weatherContainer {
-        gap: 24px;
-    }
-
-    .partner {
-        height: 22px;
+        margin-bottom: 24px;
     }
 
     #footerInfo p {
@@ -583,8 +594,42 @@
         height: 14px;
     }
 
+    /* Footer Data — override absolute positioning */
+    #footerData {
+        position: relative;
+        left: 0;
+        width: 100% !important;
+        height: auto;
+        padding: 30px 24px;
+    }
+
+    /* Hourly */
+    .hourly_row .weatherContainer {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .hour_box {
+        width: 25%;
+        flex: none;
+    }
+
+    /* Weather */
     .weatherContainer {
         gap: 20px;
+    }
+
+    .meteo_row .weatherContainer {
+        gap: 16px;
+    }
+
+    /* Partners */
+    #footerDataBottom .weatherContainer {
+        gap: 24px;
+    }
+
+    .partner {
+        height: 22px;
     }
 }
 
@@ -603,7 +648,7 @@
     }
 
     #footerLeft {
-        padding: 20px 16px;
+        padding: 16px 0;
     }
 
     #footerInfo p {
