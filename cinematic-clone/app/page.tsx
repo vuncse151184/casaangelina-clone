@@ -93,8 +93,9 @@ export default function CinematicHero() {
     const getSections = () => [0, getContentEnd()];
 
     const handleWheel = (e: WheelEvent) => {
-      // Let native scroll work inside the modal
+      // Let native scroll work inside the modal or any [data-lenis-prevent] element
       if (isBookOpenRef.current) return;
+      if ((e.target as HTMLElement)?.closest?.("[data-lenis-prevent]")) return;
 
       if (isSnapping) {
         e.preventDefault();

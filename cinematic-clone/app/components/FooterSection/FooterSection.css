@@ -204,7 +204,7 @@
     text-transform: uppercase;
     margin: 0;
     align-self: flex-end;
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     font-size: clamp(40px, 14cqi, 100px);
     font-weight: 300;
 }
@@ -223,12 +223,12 @@
 }
 
 #date .ext-day {
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     font-size: clamp(10px, 2.5cqi, 18px);
 }
 
 #date .ext-date {
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     font-weight: 300;
     font-size: clamp(12px, 3.5cqi, 28px);
 }
@@ -270,7 +270,7 @@
 }
 
 .day_name p {
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 16px;
     color: #5a4a3a;
     text-align: center;
@@ -340,7 +340,7 @@
 .meteo_stats {
     color: #6b5a48;
     font-size: 14px;
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     letter-spacing: 0.08em;
     text-transform: lowercase;
     margin: 0;
@@ -372,7 +372,7 @@
 .meteo_small {
     color: #6b5a48;
     font-size: 14px;
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     letter-spacing: 0.05em;
     margin: 0;
 }
@@ -380,7 +380,7 @@
 .temp_text {
     color: #5a4a3a;
     font-size: clamp(24px, 7cqi, 50px);
-    font-family: 'Geometria';
+    font-family: var(--font-montserrat), sans-serif;
     font-weight: 200;
     letter-spacing: 0.02em;
     margin: 0;

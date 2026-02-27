@@ -12,7 +12,7 @@
         "truePerfection": "TRUE PERFECTION."
     },
     "ethos": {
-        "heading": "t i n h  t h ầ n",
+        "heading": "ý tưởng",
         "desc1": "Sự thanh lịch tinh tế là triết lý thiết kế của chúng tôi và những chi tiết tinh tế là lẽ sống của chúng tôi. Chúng tôi đảm bảo mọi thứ trong kỳ nghỉ của bạn đều hoàn hảo, từ những tấm ga trải giường cotton trắng mềm mại đến những lá thảo mộc trang trí được hái từ vườn.",
         "desc2": "Những đường nét thanh thoát và sắc trắng tinh khôi tôn lên những gam màu đậm đà của thiên nhiên. Nơi trú ẩn thoáng đãng, khách sạn boutique của chúng tôi là nơi du khách có thể tái khám phá nhịp sống chậm rãi của những ngày dài thư thái.",
         "services": {
@@ -25,7 +25,7 @@
         }
     },
     "dining": {
-        "heading": "t a s t e",
+        "heading": "Ẩm thực",
         "description": "Ẩm thực cao cấp phong cách Amalfi. Tại Casa Angelina, hương vị phong phú và nguyên liệu xứ Campania truyền cảm hứng cho từng món ăn.",
         "venues": {
             "unPiano": {
@@ -55,7 +55,7 @@
         }
     },
     "experiences": {
-        "heading": "t r ả i  n g h i ệ m",
+        "heading": "trải nghiệm",
         "moreDetails": "Chi Tiết",
         "items": {
             "chefOnBoard": {
@@ -190,7 +190,7 @@
         "email": "Email",
         "phone": "Số điện thoại",
         "message": "Ghi chú",
-        "submit": "Đồng ý",
+        "submit": "Đặt hẹn",
         "checkIn": "Nhận phòng",
         "checkOut": "Trả phòng",
         "rooms": "Phòng",
@@ -202,5 +202,14 @@
         "adults": "Người lớn",
         "bookNow": "Đặt phòng",
         "bookNowHint": "Please ensure Strapi is running and public access is enabled."
+    },
+    "newsletter": {
+        "title": "Stay in touch",
+        "description": "Kết nối với Casa Angelina để nhận thông tin về các chương trình khuyến mãi, tin tức và ưu đãi độc quyền mới nhất.",
+        "subscriptionLabel": "ĐĂNG KÝ ĐỂ NHẬN TIN TỨC MỚI NHẤT",
+        "name": "tên",
+        "surname": "họ",
+        "subscribe": "Đăng ký",
+        "confirmMsg": "Bạn đã đăng ký thành công. Cảm ơn bạn!"
     }
 }

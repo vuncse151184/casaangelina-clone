@@ -26,7 +26,7 @@ export default function ScrollToTop() {
                 position: "fixed",
                 bottom: "32px",
                 right: "32px",
-                zIndex: 90,
+                zIndex: 999,
                 width: "48px",
                 height: "48px",
                 borderRadius: "50%",

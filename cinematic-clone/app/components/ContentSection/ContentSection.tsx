@@ -1,7 +1,8 @@
 "use client";
 
-import { type RefObject } from "react";
+import { useState, type RefObject } from "react";
 import { useTranslation } from "../../i18n/I18nContext";
+import NewsletterModal from "../NewsletterModal";
 
 interface ContentSectionProps {
     contentRef: RefObject<HTMLElement | null>;
@@ -19,6 +20,7 @@ export default function ContentSection({
     showLook,
 }: ContentSectionProps) {
     const { t } = useTranslation();
+    const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
 
     return (
         <section
@@ -51,8 +53,9 @@ export default function ContentSection({
                                 {t("content.look").split("").map((char, i) => (
                                     <span
                                         key={i}
-                                        className="inline-block !font-[300] text-[#EAE6E0] font-[Geometria]"
+                                        className="inline-block !font-[300] text-[#EAE6E0]"
                                         style={{
+                                            fontFamily: "var(--font-montserrat), sans-serif",
                                             opacity: showLook ? 1 : 0,
                                             transform: showLook ? "translateY(0)" : "translateY(80px)",
                                             transition: "opacity 0.8s ease, transform 0.8s ease",
@@ -162,50 +165,34 @@ export default function ContentSection({
                 </div>
 
                 {/* Side Mail Icon — hidden on mobile */}
-                <div
-                    className="fixed left-6 top-1/2 -translate-y-1/2 z-30 hidden md:block"
-                    style={{
-                        opacity: showContent ? 1 : 0,
-                        transition: "opacity 0.5s ease",
-                    }}
+                <NewsletterModal
+                    isOpen={isNewsletterOpen}
+                    onOpenChange={setIsNewsletterOpen}
                 >
-                    <svg
-                        className="h-5 w-5 text-stone-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    <div
+                        className="fixed left-6 bottom-20 -translate-y-1/2 z-30 hidden md:block cursor-pointer"
+                        style={{
+                            opacity: showContent ? 1 : 0,
+                            transition: "opacity 0.5s ease",
+                        }}
                     >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                    </svg>
-                </div>
+                        <svg
+                            className="h-6 w-6 text-stone-400 hover:text-stone-600 transition-colors"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                            />
+                        </svg>
+                    </div>
+                </NewsletterModal>
 
-                {/* Scroll Down Arrow — hidden on mobile */}
-                <div
-                    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-30 hidden md:block"
-                    style={{
-                        opacity: showContent ? 0.5 : 0,
-                        transition: "opacity 0.5s ease",
-                    }}
-                >
-                    <svg
-                        className="h-5 w-5 text-stone-400 animate-bounce"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1}
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                        />
-                    </svg>
-                </div>
+
             </div>
         </section>
     );

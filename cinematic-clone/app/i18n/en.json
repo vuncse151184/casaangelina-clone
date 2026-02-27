@@ -203,5 +203,14 @@
         "promoCode": "Promo Code",
         "bookNow": "Book Now",
         "bookNowHint": "Please ensure Strapi is running and public access is enabled."
+    },
+    "newsletter": {
+        "title": "Stay in touch",
+        "description": "Stay connected with Casa Angelina to get the inside scoop on our latest promotions, news and exclusive offers.",
+        "subscriptionLabel": "E-NEWSLETTER SUBSCRIPTION",
+        "name": "name",
+        "surname": "surname",
+        "subscribe": "Subscribe",
+        "confirmMsg": "You have been subscribed successfully. Thank you!"
     }
 }

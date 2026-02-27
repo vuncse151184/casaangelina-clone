@@ -135,7 +135,7 @@ export default function BookNowModal({ isOpen, onClose }: BookNowModalProps) {
                 ) : (
                     <>
                         <DialogHeader className="gap-3 mb-2">
-                            <DialogTitle className="font-[Geometria] text-[28px] font-normal text-[#2a2a2a] tracking-tight">
+                            <DialogTitle className="text-[28px] font-normal text-[#2a2a2a] tracking-tight" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
                                 {t("booking.title")}
                             </DialogTitle>
                             <DialogDescription className="text-[#8b7355] text-sm tracking-wide">

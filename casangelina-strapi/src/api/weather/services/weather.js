@@ -1,6 +1,6 @@
 'use strict';
 
-const Redis = require('ioredis');
+const { Redis } = require('@upstash/redis');
 
 const CACHE_KEY = 'weather_data';
 const CACHE_TTL = 7200; // 2 hours in seconds
@@ -13,19 +13,14 @@ let redis;
 
 function getRedisClient() {
     if (!redis) {
-        const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
-        redis = new Redis(redisUrl, {
-            maxRetriesPerRequest: 3,
-            lazyConnect: true,
-        });
+        const url = process.env.UPSTASH_REDIS_REST_URL;
+        const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-        redis.on('error', (err) => {
-            strapi.log.error('Redis connection error:', err.message);
-        });
+        if (!url || !token) {
+            throw new Error('UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set');
+        }
 
-        redis.on('connect', () => {
-            strapi.log.info('Redis connected successfully');
-        });
+        redis = new Redis({ url, token });
     }
     return redis;
 }
@@ -82,17 +77,16 @@ async function fetchFromOpenWeather() {
 
 module.exports = {
     /**
-     * Fetch weather from OpenWeatherMap and store in Redis with TTL.
+     * Fetch weather from OpenWeatherMap and store in Upstash Redis with TTL.
      */
     async fetchAndCache() {
         try {
             const client = getRedisClient();
-            await client.connect().catch(() => { }); // ignore if already connected
-
             const data = await fetchFromOpenWeather();
-            await client.set(CACHE_KEY, JSON.stringify(data), 'EX', CACHE_TTL);
 
-            strapi.log.info('Weather data cached in Redis (TTL: 2 hours)');
+            await client.set(CACHE_KEY, JSON.stringify(data), { ex: CACHE_TTL });
+
+            strapi.log.info('Weather data cached in Upstash Redis (TTL: 2 hours)');
             return data;
         } catch (error) {
             strapi.log.error('Failed to fetch and cache weather:', error.message);
@@ -101,20 +95,20 @@ module.exports = {
     },
 
     /**
-     * Get weather data — from Redis cache if available, otherwise fetch fresh.
+     * Get weather data — from Upstash Redis cache if available, otherwise fetch fresh.
      */
     async getWeather() {
         try {
             const client = getRedisClient();
-            await client.connect().catch(() => { }); // ignore if already connected
-
             const cached = await client.get(CACHE_KEY);
+
             if (cached) {
-                strapi.log.debug('Serving weather data from Redis cache');
-                return JSON.parse(cached);
+                strapi.log.debug('Serving weather data from Upstash Redis cache');
+                // Upstash auto-deserializes JSON, but handle both cases
+                return typeof cached === 'string' ? JSON.parse(cached) : cached;
             }
 
-            strapi.log.info('Redis cache miss — fetching fresh weather data');
+            strapi.log.info('Upstash Redis cache miss — fetching fresh weather data');
             return await this.fetchAndCache();
         } catch (error) {
             strapi.log.error('Error getting weather data:', error.message);

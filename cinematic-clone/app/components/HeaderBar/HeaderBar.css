@@ -89,7 +89,7 @@
     background: none;
     border: none;
     color: #FFF;
-    font-family: 'Geometria', sans-serif;
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 12px;
     letter-spacing: 0.05em;
     text-transform: lowercase;
@@ -185,7 +185,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 8px 18px;
-    font-family: 'Geometria', sans-serif;
+    font-family: var(--font-montserrat), sans-serif;
     font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: lowercase;
