@@ -1,4 +1,8 @@
 module.exports = ({ env }) => ({
+  // Disable Strapi Cloud's built-in upload provider so Cloudinary is used
+  cloud: {
+    enabled: false,
+  },
   upload: {
     config: {
       provider: '@strapi/provider-upload-cloudinary',
